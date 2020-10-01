@@ -69,7 +69,9 @@ class Restore extends Component<Props, State> {
 
     private restore = (event: Event) => {
         event.preventDefault();
-        if (!this.validate()) { return; }
+        if (!this.validate()) {
+            return;
+        }
         if (this.props.requireConfirmation) {
             this.setState({
                 activeDialog: false,
@@ -92,7 +94,8 @@ class Restore extends Component<Props, State> {
                     if (this.props.onRestore) {
                         return this.props.onRestore();
                     }
-                    console.log('restore.jsx route to /'); // tslint:disable-line:no-console
+                    /* eslint no-console: "off" */
+                    console.log('restore.jsx route to /');
                     route('/', true);
                 }
             } else {
@@ -152,7 +155,7 @@ class Restore extends Component<Props, State> {
                                         checked={understand}
                                         onChange={this.handleUnderstandChange} />
                                 </div>
-                                <div class={dialogStyle.actions}>
+                                <div className={dialogStyle.actions}>
                                     <Button
                                         type="submit"
                                         danger={requireConfirmation}

@@ -13,6 +13,7 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
+/* eslint-disable */
 
 import { Component, h, RenderableProps } from 'preact';
 import { route } from 'preact-router';
@@ -238,7 +239,7 @@ class BitBoxBase extends Component<Props, State> {
 
         // Only create a new websocket if the bitboxBaseID changed.
         if (this.props.bitboxBaseID !== this.state.bitboxBaseID && this.props.bitboxBaseID) {
-            this.setState({ bitboxBaseID : this.props.bitboxBaseID});
+            this.setState({ bitboxBaseID: this.props.bitboxBaseID});
         }
     }
 
@@ -342,16 +343,16 @@ class BitBoxBase extends Component<Props, State> {
 
     private getUpdateInfo = () => {
         apiGet(this.apiPrefix() + '/update-info')
-        .then(response => {
-            if (response.success) {
-                this.setState({
-                    updateAvailable: response.available,
-                    updateInfo: response.info,
-                });
-            } else {
-                alertUser(response.message);
-            }
-        });
+            .then(response => {
+                if (response.success) {
+                    this.setState({
+                        updateAvailable: response.available,
+                        updateInfo: response.info,
+                    });
+                } else {
+                    alertUser(response.message);
+                }
+            });
     }
 
     private onUserAuthenticated = () => {
@@ -363,7 +364,7 @@ class BitBoxBase extends Component<Props, State> {
 
     private connectElectrum = () => {
         apiPost(this.apiPrefix() + '/connect-electrum', {
-            bitboxBaseID : this.props.bitboxBaseID,
+            bitboxBaseID: this.props.bitboxBaseID,
         }).then(({success}) => {
             if (!success) {
                 alertUser(success.errorMessage);
@@ -373,7 +374,7 @@ class BitBoxBase extends Component<Props, State> {
 
     private removeBitBoxBase = () => {
         apiPost(this.apiPrefix() + '/disconnect', {
-            bitboxBaseID : this.props.bitboxBaseID,
+            bitboxBaseID: this.props.bitboxBaseID,
         }).then(({ success }) => {
             if (!success) {
                 alertUser('Did not work');
@@ -391,15 +392,15 @@ class BitBoxBase extends Component<Props, State> {
         event.preventDefault();
         this.setState({ inProgress: true });
         apiPost(this.apiPrefix() + '/user-change-password', {username: 'admin', password: defaultPassword, newPassword: this.state.password})
-        .then(response => {
-            if (response.success) {
-                this.setState({ activeStep: ActiveStep.ChooseSetup });
-            } else {
+            .then(response => {
+                if (response.success) {
+                    this.setState({ activeStep: ActiveStep.ChooseSetup });
+                } else {
                 // TODO: Once error codes are implemented on the base, add them with corresponding text to app.json for translation
-                alertUser(response.message);
-            }
-            this.setState({ inProgress: false });
-        });
+                    alertUser(response.message);
+                }
+                this.setState({ inProgress: false });
+            });
     }
 
     private handleNameInput = (event: Event) => {
@@ -415,43 +416,43 @@ class BitBoxBase extends Component<Props, State> {
     private setHostname = () => {
         this.setState({ inProgress: true });
         apiPost(this.apiPrefix() + '/set-hostname', {hostname: this.state.hostname})
-        .then(response => {
-            if (response.success) {
-                this.setState({ activeStep: ActiveStep.ChooseSyncingOption });
-            } else {
-                alertUser(response.message);
-            }
-            this.setState({ inProgress: false });
-        });
+            .then(response => {
+                if (response.success) {
+                    this.setState({ activeStep: ActiveStep.ChooseSyncingOption });
+                } else {
+                    alertUser(response.message);
+                }
+                this.setState({ inProgress: false });
+            });
     }
 
     private setNetwork = (networkOption: NetworkOptions, toggleSetting: boolean) => {
         this.setState({ inProgress: true });
         apiPost(this.apiPrefix() + `/${networkOption}`, toggleSetting)
-        .then(response => {
-            if (response.success) {
-                if (this.state.syncingOption === SyncingOptions.Presync) {
-                    this.setState({ activeStep: ActiveStep.Backup });
+            .then(response => {
+                if (response.success) {
+                    if (this.state.syncingOption === SyncingOptions.Presync) {
+                        this.setState({ activeStep: ActiveStep.Backup });
+                    } else {
+                        this.setSyncingOption();
+                    }
                 } else {
-                    this.setSyncingOption();
+                    alertUser(response.message);
                 }
-            } else {
-                alertUser(response.message);
-            }
-            this.setState({ inProgress: false });
-        });
+                this.setState({ inProgress: false });
+            });
     }
 
     private setSyncingOption = () => {
         if (this.state.syncingOption) {
             apiPost(this.apiPrefix() + `/${this.state.syncingOption}`)
-            .then(response => {
-                if (response.success) {
-                    this.setState({ activeStep: ActiveStep.Backup });
-                } else {
-                    alertUser(response.message);
-                }
-            });
+                .then(response => {
+                    if (response.success) {
+                        this.setState({ activeStep: ActiveStep.Backup });
+                    } else {
+                        alertUser(response.message);
+                    }
+                });
         } else {
             alertUser(this.props.t('bitboxBaseWizard.errors.networkSetting'));
         }
@@ -460,27 +461,27 @@ class BitBoxBase extends Component<Props, State> {
     private createBackup = () => {
         this.setState({ inProgress: true });
         apiPost(this.apiPrefix() + '/backup-sysconfig')
-        .then(response => {
-            if (response.success) {
-                this.setState({ activeStep: ActiveStep.BackupCreated });
-                this.finalizeSetup();
-            } else {
-                alertUser(response.message);
-                this.setState({ inProgress: false });
-            }
-        });
+            .then(response => {
+                if (response.success) {
+                    this.setState({ activeStep: ActiveStep.BackupCreated });
+                    this.finalizeSetup();
+                } else {
+                    alertUser(response.message);
+                    this.setState({ inProgress: false });
+                }
+            });
     }
 
     private finalizeSetup = () => {
         apiPost(this.apiPrefix() + '/finalize-setup-wizard')
-        .then(response => {
-            if (!response.success) {
-                alertUser(response.message);
-            }
-            this.getBaseInfo();
-            this.getServiceInfo();
-            this.setState({ inProgress: false });
-        });
+            .then(response => {
+                if (!response.success) {
+                    alertUser(response.message);
+                }
+                this.getBaseInfo();
+                this.getServiceInfo();
+                this.setState({ inProgress: false });
+            });
     }
 
     private onUpdateAvailable = () => {
@@ -515,7 +516,7 @@ class BitBoxBase extends Component<Props, State> {
         if (!showWizard) {
             if (locked) {
                 return (
-                    <UnlockBitBoxBase bitboxBaseID={bitboxBaseID}/>
+                    <UnlockBitBoxBase bitboxBaseID={bitboxBaseID} />
                 );
             }
 
@@ -569,7 +570,7 @@ class BitBoxBase extends Component<Props, State> {
                                                 baseStore.state.registeredBases[bitboxBaseID].internalStatus === 'passwordNotSet' ?
                                                     this.setState({activeStep: ActiveStep.SetPassword}) :
                                                     this.setState({showWizard: false});
-                                                }
+                                            }
                                             }>
                                             {t('bitbox02Wizard.pairing.confirmButton')}
                                         </Button>
@@ -711,7 +712,8 @@ class BitBoxBase extends Component<Props, State> {
                                                         <li>{t('bitboxBaseWizard.bitcoin.reindexInfo.con1')}</li>
                                                     </ul>
                                                 </div>
-                                                <Button primary onClick={() => {                                   confirmation(t('bitboxBaseWizard.bitcoin.reindexInfo.warning'), result => {
+                                                <Button primary onClick={() => {
+                                                    confirmation(t('bitboxBaseWizard.bitcoin.reindexInfo.warning'), result => {
                                                         if (result) {
                                                             this.setState({ syncingOption: SyncingOptions.Reindex, activeStep: ActiveStep.ChooseNetwork });
                                                         }
@@ -730,8 +732,8 @@ class BitBoxBase extends Component<Props, State> {
                                                         <li>{t('bitboxBaseWizard.bitcoin.resyncInfo.pro1')}</li>
                                                     </ul>
                                                     <ul className={style.consOptionsList}>
-                                                    <li>{t('bitboxBaseWizard.bitcoin.resyncInfo.con1')}</li>
-                                                    <li>{t('bitboxBaseWizard.bitcoin.resyncInfo.con2')}</li>
+                                                        <li>{t('bitboxBaseWizard.bitcoin.resyncInfo.con1')}</li>
+                                                        <li>{t('bitboxBaseWizard.bitcoin.resyncInfo.con2')}</li>
                                                     </ul>
                                                 </div>
                                                 <Button primary onClick={() => {
@@ -764,12 +766,12 @@ class BitBoxBase extends Component<Props, State> {
                                                     <h3 className={stepStyle.stepSubHeader}>{t('bitboxBaseWizard.networks.tor.title')}</h3>
                                                     {
                                                         syncingOption === SyncingOptions.Reindex
-                                                        ?
-                                                        <span>{t('bitboxBaseWizard.networks.tor.label1')}</span>
-                                                        :
-                                                        <p style={syncingOption === SyncingOptions.Resync && 'padding-bottom: 22px'}>
-                                                            {t('bitboxBaseWizard.networks.tor.label2')}
-                                                        </p>
+                                                            ?
+                                                            <span>{t('bitboxBaseWizard.networks.tor.label1')}</span>
+                                                            :
+                                                            <p style={syncingOption === SyncingOptions.Resync && 'padding-bottom: 22px'}>
+                                                                {t('bitboxBaseWizard.networks.tor.label2')}
+                                                            </p>
                                                     }
                                                     <ul className={style.prosOptionsList}>
                                                         <li>{t('bitboxBaseWizard.networks.tor.pro1')}</li>

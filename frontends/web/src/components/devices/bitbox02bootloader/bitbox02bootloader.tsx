@@ -64,16 +64,16 @@ class BitBox02Bootloader extends Component<Props, State> {
         this.onStatusChanged();
         this.unsubscribe = apiWebsocket(({ type, data, deviceID }) => {
             switch (type) {
-                case 'device':
-                    if (deviceID !== this.props.deviceID) {
-                        return;
-                    }
-                    switch (data) {
-                        case 'statusChanged':
-                            this.onStatusChanged();
-                            break;
-                    }
+            case 'device':
+                if (deviceID !== this.props.deviceID) {
+                    return;
+                }
+                switch (data) {
+                case 'statusChanged':
+                    this.onStatusChanged();
                     break;
+                }
+                break;
             }
         });
     }
@@ -102,8 +102,8 @@ class BitBox02Bootloader extends Component<Props, State> {
 
     public render(
         { t,
-          deviceID,
-          erased,
+            deviceID,
+            erased,
         }: RenderableProps<Props>,
         { status,
         }: State,
@@ -152,15 +152,15 @@ class BitBox02Bootloader extends Component<Props, State> {
                             {t('bb02Bootloader.flipscreen')}
                         </a>
                     </div>
-                    <hr/>
+                    <hr />
                     <details>
                         <summary>
                             {t('bb02Bootloader.advanced.label')}
                         </summary>
-                          <div>
-                              <br />
-                              <ToggleShowFirmwareHash deviceID={deviceID} />
-                          </div>
+                        <div>
+                            <br />
+                            <ToggleShowFirmwareHash deviceID={deviceID} />
+                        </div>
                     </details>
                 </div>
             );

@@ -59,6 +59,7 @@ export interface AmountWithConversions {
 }
 
 type Conversions = {
+    /* eslint no-unused-vars: "off" */
     [key in Fiat]: string;
 };
 
@@ -162,16 +163,16 @@ class Send extends Component<Props, State> {
         }
         this.unsubscribe = apiWebsocket(({ type, data, meta }) => {
             switch (type) {
-                case 'device':
-                    switch (data) {
-                        case 'signProgress':
-                            this.setState({ signProgress: meta, signConfirm: null });
-                            break;
-                        case 'signConfirm':
-                            this.setState({ signConfirm: true });
-                            break;
-                    }
+            case 'device':
+                switch (data) {
+                case 'signProgress':
+                    this.setState({ signProgress: meta, signConfirm: null });
                     break;
+                case 'signConfirm':
+                    this.setState({ signConfirm: true });
+                    break;
+                }
+                break;
             }
         });
     }
@@ -290,17 +291,17 @@ class Send extends Component<Props, State> {
         this.setState({ isUpdatingProposal: true });
         this.proposeTimeout = setTimeout(() => {
             const propose = apiPost('account/' + this.getAccount()!.code + '/tx-proposal', txInput)
-            .then(result => {
-                const pos = this.pendingProposals.indexOf(propose);
-                if (this.pendingProposals.length - 1 === pos) {
-                    this.txProposal(updateFiat, result);
-                }
-                this.pendingProposals.splice(pos, 1);
-            })
-            .catch(() => {
-                this.setState({ valid: false });
-                this.pendingProposals.splice(this.pendingProposals.indexOf(propose), 1);
-            });
+                .then(result => {
+                    const pos = this.pendingProposals.indexOf(propose);
+                    if (this.pendingProposals.length - 1 === pos) {
+                        this.txProposal(updateFiat, result);
+                    }
+                    this.pendingProposals.splice(pos, 1);
+                })
+                .catch(() => {
+                    this.setState({ valid: false });
+                    this.pendingProposals.splice(this.pendingProposals.indexOf(propose), 1);
+                });
             this.pendingProposals.push(propose);
         }, 400);
     }
@@ -333,31 +334,31 @@ class Send extends Component<Props, State> {
         } else {
             const errorCode = result.errorCode;
             switch (errorCode) {
-                case 'invalidAddress':
-                    this.setState({ addressError: this.props.t('send.error.invalidAddress') });
-                    break;
-                case 'invalidAmount':
-                case 'insufficientFunds':
-                    this.setState({
-                        amountError: this.props.t(`send.error.${errorCode}`),
-                        proposedFee: undefined,
-                    });
-                    break;
-                case 'invalidData':
-                    this.setState({
-                        dataError: this.props.t('send.error.invalidData'),
-                        proposedFee: undefined,
-                    });
-                    break;
-                case 'feeTooLow':
-                    this.setState({ feeError: this.props.t('send.error.feeTooLow') });
-                    break;
-                default:
-                    this.setState({ proposedFee: undefined });
-                    if (errorCode) {
-                        this.unregisterEvents();
-                        alertUser(errorCode, this.registerEvents);
-                    }
+            case 'invalidAddress':
+                this.setState({ addressError: this.props.t('send.error.invalidAddress') });
+                break;
+            case 'invalidAmount':
+            case 'insufficientFunds':
+                this.setState({
+                    amountError: this.props.t(`send.error.${errorCode}`),
+                    proposedFee: undefined,
+                });
+                break;
+            case 'invalidData':
+                this.setState({
+                    dataError: this.props.t('send.error.invalidData'),
+                    proposedFee: undefined,
+                });
+                break;
+            case 'feeTooLow':
+                this.setState({ feeError: this.props.t('send.error.feeTooLow') });
+                break;
+            default:
+                this.setState({ proposedFee: undefined });
+                if (errorCode) {
+                    this.unregisterEvents();
+                    alertUser(errorCode, this.registerEvents);
+                }
             }
             this.setState({ isUpdatingProposal: false });
         }
@@ -538,6 +539,7 @@ class Send extends Component<Props, State> {
             proposedAmount,
             valid,
             amount,
+
             /* data, */
             fiatAmount,
             fiatUnit,
@@ -551,6 +553,7 @@ class Send extends Component<Props, State> {
             addressError,
             amountError,
             feeError,
+
             /* dataError, */
             paired,
             signProgress,
@@ -579,14 +582,14 @@ class Send extends Component<Props, State> {
             </span>
         );
         return (
-            <div class="contentWithGuide">
-                <div class="container">
+            <div className="contentWithGuide">
+                <div className="container">
                     <Status type="warning">
                         {paired === false && t('warning.sendPairing')}
                     </Status>
                     <Header title={<h2>{t('send.title', { accountName: account.name })}</h2>} />
-                    <div class="innerContainer scrollableContainer">
-                        <div class="content padded">
+                    <div className="innerContainer scrollableContainer">
+                        <div className="content padded">
                             <div>
                                 <label className="labelXLarge">{t('send.availableBalance')}</label>
                             </div>
@@ -613,7 +616,7 @@ class Send extends Component<Props, State> {
                             </div>
                             <div className="box large m-bottom-default">
                                 <div className="columnsContainer">
-                                    <div class="columns">
+                                    <div className="columns">
                                         <div className="column">
                                             <Input
                                                 label={t('send.address.label')}
@@ -687,7 +690,7 @@ class Send extends Component<Props, State> {
                                                 showCalculatingFeeLabel={isUpdatingProposal}
                                                 onFeeTargetChange={this.feeTargetChange}
                                                 onFeePerByte={fee => this.setState({ feePerByte: fee }, this.validateAndDisplayFee)}
-                                                error={feeError}/>
+                                                error={feeError} />
                                         </div>
                                         <div className="column column-1-2">
                                             <Input
@@ -705,6 +708,7 @@ class Send extends Component<Props, State> {
                                     </div>
                                 </div>
                                 {
+
                                     /*
                                     (account.coinCode === 'eth' || account.coinCode === 'teth' || account.coinCode === 'reth') && (
                                         <div class="row">
@@ -719,7 +723,7 @@ class Send extends Component<Props, State> {
                                     )
                                     */
                                 }
-                                <div class="buttons ignore reverse m-top-none">
+                                <div className="buttons ignore reverse m-top-none">
                                     <Button
                                         primary
                                         onClick={this.send}
@@ -775,7 +779,7 @@ class Send extends Component<Props, State> {
                                             </span>
                                         )}
                                         {feePerByte ? (
-                                            <span key="feeperbyte"><br/><small>({feePerByte} sat/vB)</small></span>
+                                            <span key="feeperbyte"><br /><small>({feePerByte} sat/vB)</small></span>
                                         ) : null}
                                     </p>
                                 </div>
@@ -785,7 +789,7 @@ class Send extends Component<Props, State> {
                                             <label>{t('send.confirm.selected-coins')}</label>
                                             {
                                                 Object.keys(this.selectedUTXOs).map((uxto, i) => (
-                                                    <p class={style.confirmationValue} key={`selectedCoin-${i}`}>{uxto}</p>
+                                                    <p className={style.confirmationValue} key={`selectedCoin-${i}`}>{uxto}</p>
                                                 ))
                                             }
                                         </div>
@@ -806,7 +810,7 @@ class Send extends Component<Props, State> {
                     {
                         isSent && (
                             <WaitDialog>
-                                <div class="flex flex-row flex-center flex-items-center">
+                                <div className="flex flex-row flex-center flex-items-center">
                                     <img src={approve} alt="Success" style="height: 18px; margin-right: 1rem;" />{t('send.success')}
                                 </div>
                             </WaitDialog>
@@ -815,7 +819,7 @@ class Send extends Component<Props, State> {
                     {
                         isAborted && (
                             <WaitDialog>
-                                <div class="flex flex-row flex-center flex-items-center">
+                                <div className="flex flex-row flex-center flex-items-center">
                                     <img src={reject} alt="Abort" style="height: 18px; margin-right: 1rem;" />{t('send.abort')}
                                 </div>
                             </WaitDialog>
@@ -833,7 +837,7 @@ class Send extends Component<Props, State> {
                                     height={300 /* fix height to avoid ugly resize effect after open */}
                                     className={style.qrVideo}
                                     onLoadedData={this.handleVideoLoad} />
-                                <div class={['buttons', 'flex', 'flex-row', 'flex-between'].join(' ')}>
+                                <div className={['buttons', 'flex', 'flex-row', 'flex-between'].join(' ')}>
                                     <Button
                                         secondary
                                         onClick={this.toggleScanQR}>

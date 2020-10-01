@@ -60,13 +60,13 @@ class UnlockBitBoxBase extends Component<Props, State> {
         if (!this.validate()) {
             return;
         }
-        apiPost(this.apiPrefix() + '/user-authenticate', {username: 'admin', password: this.state.password })
-        .then(response => {
-            if (!response.success) {
+        apiPost(this.apiPrefix() + '/user-authenticate', { username: 'admin', password: this.state.password })
+            .then(response => {
+                if (!response.success) {
                 // TODO: Once error codes are implemented on the base, add them with corresponding text to app.json for translation
-                alertUser(response.message);
-            }
-        });
+                    alertUser(response.message);
+                }
+            });
         this.setState({ password: '' });
     }
 
@@ -79,13 +79,13 @@ class UnlockBitBoxBase extends Component<Props, State> {
         }: State,
     ) {
         return (
-            <div class="contentWithGuide">
+            <div className="contentWithGuide">
                 <div className="container">
                     <Header title={<h2>{t('welcome.title')}</h2>} />
                     <div className="innerContainer scrollableContainer">
                         <div className="content narrow padded isVerticallyCentered">
                             <BitBoxBaseLogo />
-                            <div class="box large">
+                            <div className="box large">
                                 {
                                     <form onSubmit={this.handleSubmit}>
                                         <div>
@@ -120,4 +120,4 @@ class UnlockBitBoxBase extends Component<Props, State> {
 }
 
 const HOC = translate<UnlockBitBoxBaseProps>()(UnlockBitBoxBase);
-export { HOC as UnlockBitBoxBase};
+export { HOC as UnlockBitBoxBase };

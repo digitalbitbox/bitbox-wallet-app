@@ -14,7 +14,7 @@
  * limitations under the License.
  */
 
-import { Component, h, RenderableProps } from 'preact';
+import { h, RenderableProps } from 'preact';
 import { translate, TranslateProps } from '../../decorators/translate';
 import { Radio } from '../forms';
 import * as style from './backups.css';
@@ -36,26 +36,32 @@ export interface Backup {
 
 type Props = BackupsListItemProps & TranslateProps;
 
-class BackupsListItem extends Component<Props> {
-    public render(
-        { disabled, backup, selectedBackup, handleChange, onFocus, radio }: RenderableProps<Props>,
-    ) {
-        let date = '';
-        if (backup.date && backup.date !== '') {
-            const options = {
-                weekday: 'long',
-                year: 'numeric',
-                month: 'long',
-                day: 'numeric',
-                hour: '2-digit',
-                minute: '2-digit',
-            };
-            date = new Date(backup.date).toLocaleString(this.context.i18n.language, options);
-        } else {
-            date = 'unknown';
-        }
-        return (
-            radio ?
+function BackupsListItem({
+    disabled,
+    backup,
+    selectedBackup,
+    handleChange,
+    onFocus,
+    radio
+}: RenderableProps<Props>): JSX.Element {
+
+    let date = '';
+    if (backup.date && backup.date !== '') {
+        const options = {
+            weekday: 'long',
+            year: 'numeric',
+            month: 'long',
+            day: 'numeric',
+            hour: '2-digit',
+            minute: '2-digit',
+        };
+        // @ts-ignore
+        date = new Date(backup.date).toLocaleString(this.context.i18n.language, options);
+    } else {
+        date = 'unknown';
+    }
+    return (
+        radio ?
             <Radio
                 disabled={!!disabled}
                 checked={selectedBackup === backup.id}
@@ -73,9 +79,9 @@ class BackupsListItem extends Component<Props> {
                 <div className={style.backupID}>ID: {backup.id}</div>
                 <div className="text-small text-gray">{date}</div>
             </tr>
-        );
-    }
-}
+    );
+
+};
 
 const TranslatedBackupsListItem = translate<BackupsListItemProps>()(BackupsListItem);
 export { TranslatedBackupsListItem as BackupsListItem };

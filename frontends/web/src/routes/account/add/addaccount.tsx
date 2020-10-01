@@ -62,7 +62,7 @@ const COIN_AND_ACCOUNT_CODES = {
         coinCode: 'ltc',
         scriptType: 'p2wpkh', // TODO dummy script type to pass DecodeScriptType
     },
-    'eth': {
+    eth: {
         name: 'Ethereum',
         coinCode: 'eth',
         scriptType: 'p2wpkh',
@@ -103,7 +103,7 @@ const COIN_AND_ACCOUNT_CODES = {
         coinCode: 'tltc',
         scriptType: 'p2wpkh', // TODO dummy script type to pass DecodeScriptType
     },
-    'teth': {
+    teth: {
         name: 'Ethereum Ropsten Testnet',
         coinCode: 'teth',
         scriptType: 'p2wpkh', // TODO dummy script type to pass DecodeScriptType
@@ -136,7 +136,7 @@ class AddAccount extends Component<Props, State> {
     }
 
     private submit = () => {
-        const {coinCode, scriptType } = COIN_AND_ACCOUNT_CODES[this.state.coinAndAccountCode];
+        const { coinCode, scriptType } = COIN_AND_ACCOUNT_CODES[this.state.coinAndAccountCode];
 
         interface ResponseData {
             success: boolean;
@@ -147,27 +147,25 @@ class AddAccount extends Component<Props, State> {
         }
 
         apiPost('account-add', {
-                coinCode,
-                scriptType,
-                accountName: this.state.accountName,
-                extendedPublicKey: this.state.extendedPublicKey,
-                address: this.state.address,
+            coinCode,
+            scriptType,
+            accountName: this.state.accountName,
+            extendedPublicKey: this.state.extendedPublicKey,
+            address: this.state.address,
         })
 
-        .then((data: ResponseData) => {
-            if (data.success) {
-                if (data.warningCode) {
-                    alertUser(this.props.t(`addAccount.warning.${data.warningCode}`));
-                }
-                route('/account/' + data.accountCode);
-            } else {
-                if (data.errorCode === 'unknown' && data.errorMessage) {
+            .then((data: ResponseData) => {
+                if (data.success) {
+                    if (data.warningCode) {
+                        alertUser(this.props.t(`addAccount.warning.${data.warningCode}`));
+                    }
+                    route('/account/' + data.accountCode);
+                } else if (data.errorCode === 'unknown' && data.errorMessage) {
                     alertUser(this.props.t('unknownError', { errorMessage: data.errorMessage }));
                 } else {
                     alertUser(this.props.t(`addAccount.error.${data.errorCode}`));
                 }
-            }
-        });
+            });
     }
 
     public render(
@@ -175,13 +173,13 @@ class AddAccount extends Component<Props, State> {
         { coinAndAccountCode, accountName, extendedPublicKey, address }: Readonly<State>,
     ): JSX.Element {
         return (
-            <div class="contentWithGuide">
-                <div class="container">
+            <div className="contentWithGuide">
+                <div className="container">
                     <Header title={<h2>{t('addAccount.title')}</h2>} />
-                    <div class="innerContainer scrollableContainer">
-                        <div class="content padded">
-                            <div class="row">
-                                <div class="flex flex-1 flex-row flex-between flex-items-top spaced">
+                    <div className="innerContainer scrollableContainer">
+                        <div className="content padded">
+                            <div className="row">
+                                <div className="flex flex-1 flex-row flex-between flex-items-top spaced">
                                     <Input
                                         label={t('addAccount.accountName')}
                                         onInput={linkState(this, 'accountName')}
@@ -206,7 +204,7 @@ class AddAccount extends Component<Props, State> {
                                     />
                                 </div>
                             </div>
-                            <div class="row">
+                            <div className="row">
                                 <Input
                                     label={coinAndAccountCode === 'teth' || coinAndAccountCode === 'eth' || coinAndAccountCode === 'ltc-addr' || coinAndAccountCode === 'btc-addr' || coinAndAccountCode === 'tbtc-addr' || coinAndAccountCode === 'tltc-addr' ? t('addAccount.address') : t('addAccount.extendedPublicKey')}
                                     onInput={coinAndAccountCode === 'teth' || coinAndAccountCode === 'eth' || coinAndAccountCode === 'ltc-addr' || coinAndAccountCode === 'btc-addr' || coinAndAccountCode === 'tbtc-addr' || coinAndAccountCode === 'tltc-addr' ? linkState(this, 'address') : linkState(this, 'extendedPublicKey')}
@@ -215,7 +213,7 @@ class AddAccount extends Component<Props, State> {
                                     placeholder={coinAndAccountCode === 'teth' || coinAndAccountCode === 'eth' || coinAndAccountCode === 'ltc-addr' || coinAndAccountCode === 'btc-addr' || coinAndAccountCode === 'tbtc-addr' || coinAndAccountCode === 'tltc-addr' ? t('addAccount.address') : t('addAccount.extendedPublicKey')}
                                 />
                             </div>
-                            <div class="row buttons flex flex-row flex-between flex-start">
+                            <div className="row buttons flex flex-row flex-between flex-start">
                                 <ButtonLink secondary href="/">
                                     {t('button.back')}
                                 </ButtonLink>

@@ -14,7 +14,7 @@
  * limitations under the License.
  */
 
-import { Component, h, RenderableProps } from 'preact';
+import { h, RenderableProps } from 'preact';
 import Logo from '../../../components/icon/logo';
 import { AmountInterface, FiatConversion } from '../../../components/rates/rates';
 import { translate, TranslateProps } from '../../../decorators/translate';
@@ -31,40 +31,42 @@ interface ProvidedProps {
 
 type Props = ProvidedProps & TranslateProps;
 
-class BalancesTable extends Component<Props> {
-    public render(
-        { t, coinCode, accounts, total, index }: RenderableProps<Props>,
-    ) {
-        return (
-            <div>
-                <div className={['subHeaderContainer', index < 1 && 'first'].join(' ')}>
-                    <div className={['subHeader', style.coinheader].join(' ')}>
-                        <Logo className={style.coincode} coinCode={coinCode} alt={coinCode} active={true} />
-                        <h3>{coinCode.toUpperCase()}</h3>
-                    </div>
+function BalancesTable({
+    t,
+    coinCode,
+    accounts,
+    total,
+    index
+}: RenderableProps<Props>): JSX.Element {
+    return (
+        <div>
+            <div className={['subHeaderContainer', index < 1 && 'first'].join(' ')}>
+                <div className={['subHeader', style.coinheader].join(' ')}>
+                    <Logo className={style.coincode} coinCode={coinCode} alt={coinCode} active={true} />
+                    <h3>{coinCode.toUpperCase()}</h3>
                 </div>
-                <table className={style.table}>
-                    <thead>
-                        <tr>
-                            <th>{t('accountSummary.name')}</th>
-                            <th>{t('accountSummary.balance')}</th>
-                            <th>{t('accountSummary.fiatBalance')}</th>
-                        </tr>
-                    </thead>
-                    <tbody>
-                        {accounts.map(account => <BalanceRow name={account.name} balance={account.balance.available} code={account.coinCode}/>)}
-                    </tbody>
-                    <tfoot>
-                        <tr>
-                            <th>{t('accountSummary.total')}</th>
-                            <th>{total.amount}</th>
-                            <th><FiatConversion amount={total} /></th>
-                        </tr>
-                    </tfoot>
-                </table>
             </div>
-        );
-    }
+            <table className={style.table}>
+                <thead>
+                    <tr>
+                        <th>{t('accountSummary.name')}</th>
+                        <th>{t('accountSummary.balance')}</th>
+                        <th>{t('accountSummary.fiatBalance')}</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    {accounts.map(account => <BalanceRow key={account.coinCode} name={account.name} balance={account.balance.available} code={account.coinCode} />)}
+                </tbody>
+                <tfoot>
+                    <tr>
+                        <th>{t('accountSummary.total')}</th>
+                        <th>{total.amount}</th>
+                        <th><FiatConversion amount={total} /></th>
+                    </tr>
+                </tfoot>
+            </table>
+        </div>
+    );
 }
 
 const HOC = translate<ProvidedProps>()(BalancesTable);

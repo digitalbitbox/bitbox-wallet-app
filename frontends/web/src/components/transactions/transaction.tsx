@@ -24,8 +24,7 @@ import A from '../anchor/anchor';
 import { Dialog } from '../dialog/dialog';
 import { ExpandIcon } from '../icon/icon';
 import { ProgressRing } from '../progressRing/progressRing';
-import { FiatConversion } from '../rates/rates';
-import { AmountInterface } from '../rates/rates';
+import { AmountInterface, FiatConversion } from '../rates/rates';
 import { ArrowIn, ArrowOut, ArrowSelf, Edit, Save } from './components/icons';
 import * as style from './transaction.css';
 import * as parentStyle from './transactions.css';
@@ -152,7 +151,7 @@ class Transaction extends Component<Props, State> {
         status,
         note = '',
     }: RenderableProps<Props>,
-                  {
+    {
         transactionDialog,
         newNote,
         editMode,
@@ -247,7 +246,8 @@ class Transaction extends Component<Props, State> {
                     transactionDialog && (
                         <Dialog title="Transaction Details" onClose={this.hideDetails} slim medium>
                             <form onSubmit={this.handleEdit} className={style.detailInput}>
-                                <label for="note">{t('note.title')}</label>
+                                {/* @ts-ignore */}
+                                <label htmlFor="note">{t('note.title')}</label>
                                 <Input
                                     align="right"
                                     autoFocus={!editMode ? 'false' : 'true'}
@@ -260,14 +260,14 @@ class Transaction extends Component<Props, State> {
                                     value={newNote}
                                     maxLength={256}
                                     onInput={this.handleNoteInput}
-                                    getRef={this.setInputRef}/>
+                                    getRef={this.setInputRef} />
                                 <button
                                     className={style.editButton}
                                     onClick={this.handleEdit}
                                     title={t(`transaction.note.${editMode ? 'save' : 'edit'}`)}
                                     type="button"
                                     ref={this.setEditButtonRef}>
-                                        {editMode ? <Save /> : <Edit />}
+                                    {editMode ? <Save /> : <Edit />}
                                 </button>
                             </form>
                             <div className={style.detail}>

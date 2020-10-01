@@ -86,13 +86,13 @@ class Settings extends Component<Props, State> {
             <div className="contentWithGuide">
                 <div className="container">
                     <Header title={<h2>{t('sidebar.device')}</h2>} />
-                    <div class="innerContainer scrollableContainer">
-                        <div class="content padded">
+                    <div className="innerContainer scrollableContainer">
+                        <div className="content padded">
                             <div className="columnsContainer">
                                 <div className="columns">
                                     <div className="column column-1-2">
-                                        <div class="subHeaderContainer first">
-                                            <div class="subHeader">
+                                        <div className="subHeaderContainer first">
+                                            <div className="subHeader">
                                                 <h3>{t('deviceSettings.secrets.title')}</h3>
                                             </div>
                                         </div>
@@ -105,8 +105,8 @@ class Settings extends Component<Props, State> {
                                         </div>
                                     </div>
                                     <div className="column column-1-2">
-                                        <div class="subHeaderContainer">
-                                            <div class="subHeader">
+                                        <div className="subHeaderContainer">
+                                            <div className="subHeader">
                                                 <h3>{t('deviceSettings.hardware.title')}</h3>
                                             </div>
                                         </div>
@@ -121,17 +121,17 @@ class Settings extends Component<Props, State> {
                                 </div>
                                 <div className="columns">
                                     <div className="column column-1-2">
-                                        <div class="subHeaderContainer">
-                                            <div class="subHeader">
+                                        <div className="subHeaderContainer">
+                                            <div className="subHeader">
                                                 <h3>{t('deviceSettings.firmware.title')}</h3>
                                             </div>
                                         </div>
-                                        <div class="box slim divide">
+                                        <div className="box slim divide">
                                             {
                                                 versionInfo && versionInfo.canUpgrade ? (
                                                     <UpgradeButton
                                                         apiPrefix={this.apiPrefix()}
-                                                        versionInfo={versionInfo}/>
+                                                        versionInfo={versionInfo} />
                                                 ) : versionInfo && (
                                                     <SettingsItem optionalText={versionInfo.currentVersion}>
                                                         {t('deviceSettings.firmware.upToDate')}
@@ -141,8 +141,8 @@ class Settings extends Component<Props, State> {
                                         </div>
                                     </div>
                                     <div className="column column-1-2">
-                                        <div class="subHeaderContainer">
-                                            <div class="subHeader">
+                                        <div className="subHeaderContainer">
+                                            <div className="subHeader">
                                                 <h3>{t('settings.expert.title')}</h3>
                                             </div>
                                         </div>

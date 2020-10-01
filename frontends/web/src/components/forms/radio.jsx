@@ -34,7 +34,8 @@ export default function Radio({
                 disabled={disabled}
                 {...props}
             />
-            <label for={id}>
+            {/* @ts-ignore */}
+            <label htmlFor={id}>
                 {label}
                 {children}
             </label>

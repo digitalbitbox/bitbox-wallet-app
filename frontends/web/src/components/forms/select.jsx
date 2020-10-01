@@ -26,7 +26,8 @@ export default function Select({
 }) {
     return (
         <div className={select}>
-            {label && <label for={id}>{label}</label>}
+            {/* @ts-ignore */}
+            {label && <label htmlFor={id}>{label}</label>}
             <select id={id} {...props}>
                 {options.map(({ value, text }) => (
                     <option

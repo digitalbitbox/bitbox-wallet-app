@@ -39,22 +39,22 @@ class MnemonicPassphraseButton  extends Component<Props, State> {
         const enable = !this.props.mnemonicPassphraseEnabled;
         this.setState({ inProgress: true });
         apiPost(this.props.apiPrefix + '/set-mnemonic-passphrase-enabled',
-                enable).then(({ success }) => {
-                    this.setState({ inProgress: false });
-                    if (success) {
-                        if (enable) {
-                            alertUser(this.props.t('bitbox02Settings.mnemonicPassphrase.successEnable'));
-                        } else {
-                            alertUser(this.props.t('bitbox02Settings.mnemonicPassphrase.successDisable'));
-                        }
-                        this.props.getInfo();
-                    }
-                });
+            enable).then(({ success }) => {
+            this.setState({ inProgress: false });
+            if (success) {
+                if (enable) {
+                    alertUser(this.props.t('bitbox02Settings.mnemonicPassphrase.successEnable'));
+                } else {
+                    alertUser(this.props.t('bitbox02Settings.mnemonicPassphrase.successDisable'));
+                }
+                this.props.getInfo();
+            }
+        });
     }
 
     public render(
         { t,
-          mnemonicPassphraseEnabled,
+            mnemonicPassphraseEnabled,
         }: RenderableProps<Props>,
         { inProgress }: State,
     ) {
@@ -69,19 +69,15 @@ class MnemonicPassphraseButton  extends Component<Props, State> {
                             <div className="columnsContainer half">
                                 <div className="columns">
                                     <div className="column">
-                                        {
-                                            !mnemonicPassphraseEnabled && message && (
-                                                <p>
-                                                    {
-                                                        message.split('\n').map(line => (
-                                                            <span>
-                                                                <SimpleMarkup tagName="span" markup={line} /><br/>
-                                                            </span>
-                                                        ))
-                                                    }
-                                                </p>
-                                            )
-                                        }
+                                        { !mnemonicPassphraseEnabled && message && (
+                                            <p>
+                                                { message.split('\n').map((line, i) => (
+                                                    <span key={i}>
+                                                        <SimpleMarkup tagName="span" markup={line} /><br />
+                                                    </span>
+                                                )) }
+                                            </p>
+                                        )}
                                         <p>{t('bitbox02Interact.followInstructions')}</p>
                                     </div>
                                 </div>

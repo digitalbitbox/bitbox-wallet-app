@@ -114,8 +114,8 @@ class Backups extends Component<Props, State> {
         if (sdCardInserted === false) {
             return (
                 <div className="box m-top-default">
-                    <p class="first">{t('backup.insert')}</p>
-                    <div class="buttons">
+                    <p className="first">{t('backup.insert')}</p>
+                    <div className="buttons">
                         <Button primary onClick={this.refresh}>
                             {t('backup.insertButton')}
                         </Button>
@@ -130,13 +130,12 @@ class Backups extends Component<Props, State> {
         return (
             <div className="box large m-top-default">
                 <SimpleMarkup tagName="p" markup={t('backup.description')} />
-                <div class={style.backupsList} ref={this.setScrollableContainerRef}>
+                <div className={style.backupsList} ref={this.setScrollableContainerRef}>
                     <div className={style.listContainer}>
                         {
                             backupList.length ? backupList.map(backup => (
-                                <table className={style.table}>
+                                <table key={backup.id} className={style.table}>
                                     <BackupsListItem
-                                        key={backup.id}
                                         backup={backup}
                                         selectedBackup={selectedBackup}
                                         handleChange={this.handleBackuplistChange}
@@ -144,14 +143,14 @@ class Backups extends Component<Props, State> {
                                         radio={true} />
                                 </table>
                             )) : (
-                                <p class={style.emptyText}>
+                                <p className={style.emptyText}>
                                     {t('backup.noBackups')}
                                 </p>
                             )
                         }
                     </div>
                 </div>
-                <div class="buttons">
+                <div className="buttons">
                     {
                         showCreate && !lock && (
                             <Create

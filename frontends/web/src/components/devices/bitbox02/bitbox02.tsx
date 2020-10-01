@@ -124,22 +124,22 @@ class BitBox02 extends Component<Props, State> {
         this.onStatusChanged();
         this.unsubscribe = apiWebsocket(({ type, data, deviceID }) => {
             switch (type) {
-                case 'device':
-                    if (deviceID !== this.props.deviceID) {
-                        return;
-                    }
-                    switch (data) {
-                        case 'channelHashChanged':
-                            this.onChannelHashChanged();
-                            break;
-                        case 'statusChanged':
-                            this.onStatusChanged();
-                            break;
-                        case 'attestationCheckDone':
-                            this.updateAttestationCheck();
-                            break;
-                    }
+            case 'device':
+                if (deviceID !== this.props.deviceID) {
+                    return;
+                }
+                switch (data) {
+                case 'channelHashChanged':
+                    this.onChannelHashChanged();
                     break;
+                case 'statusChanged':
+                    this.onStatusChanged();
+                    break;
+                case 'attestationCheckDone':
+                    this.updateAttestationCheck();
+                    break;
+                }
+                break;
             }
         });
     }
@@ -206,7 +206,7 @@ class BitBox02 extends Component<Props, State> {
     }
 
     private uninitializedStep = () => {
-        this.setState({ appStatus: ''});
+        this.setState({ appStatus: '' });
     }
 
     private createWalletStep = () => {
@@ -242,7 +242,7 @@ class BitBox02 extends Component<Props, State> {
             this.setState({ waitDialog: {
                 title: this.props.t('bitbox02Wizard.stepInsertSD.insertSDcardTitle'),
                 text: this.props.t('bitbox02Wizard.stepInsertSD.insertSDCard'),
-            }});
+            } });
             return apiPost('devices/bitbox02/' + this.props.deviceID + '/insert-sdcard').then(({ success, errorMessage }) => {
                 this.setState({ sdCardInserted: success, waitDialog: undefined });
                 if (success) {
@@ -303,7 +303,7 @@ class BitBox02 extends Component<Props, State> {
             this.setState({ creatingBackup: true, waitDialog: {
                 title: this.props.t('bitbox02Interact.confirmDate'),
                 text: this.props.t('bitbox02Interact.confirmDateText'),
-            }});
+            } });
             apiPost('devices/bitbox02/' + this.props.deviceID + '/backups/create').then(({ success }) => {
                 if (!success) {
                     alertUser(this.props.t('bitbox02Wizard.createBackupFailed'));
@@ -316,25 +316,25 @@ class BitBox02 extends Component<Props, State> {
     private handleDeviceNameInput = (event: Event) => {
         const target = (event.target as HTMLInputElement);
         const value: string = target.value;
-        this.setState({deviceName: value});
+        this.setState({ deviceName: value });
     }
 
     private setDeviceName = () => {
-        this.setState({ waitDialog: { title: this.props.t('bitbox02Interact.confirmName')} });
+        this.setState({ waitDialog: { title: this.props.t('bitbox02Interact.confirmName') } });
         apiPost('devices/bitbox02/' + this.props.deviceID + '/set-device-name', { name: this.state.deviceName })
-        .then(result => {
-            this.setState({ waitDialog: undefined });
-            if (result.success) {
-                this.setPassword();
-            }
-        });
+            .then(result => {
+                this.setState({ waitDialog: undefined });
+                if (result.success) {
+                    this.setPassword();
+                }
+            });
     }
 
     private restoreFromMnemonic = () => {
         this.setState({ waitDialog: {
             title: this.props.t('bitbox02Interact.followInstructions'),
             text: this.props.t('bitbox02Interact.followInstructionsMnemonic'),
-        }});
+        } });
         apiPost('devices/bitbox02/' + this.props.deviceID + '/restore-from-mnemonic').then(({ success }) => {
             if (!success) {
                 alertUser(this.props.t('bitbox02Wizard.restoreFromMnemonic.failed'));
@@ -409,10 +409,10 @@ class BitBox02 extends Component<Props, State> {
             );
         }
         if (status === 'require_app_upgrade') {
-            return <AppUpgradeRequired/>;
+            return <AppUpgradeRequired />;
         }
         if (!showWizard) {
-            return <Settings deviceID={deviceID}/>;
+            return <Settings deviceID={deviceID} />;
         }
         const passwordGif = versionInfo.currentVersion === '1.0.0' || versionInfo.currentVersion === '2.0.0' ? passwordEntryOldGif : passwordEntryGif;
         // TODO: move to wizard.tsx
@@ -420,9 +420,9 @@ class BitBox02 extends Component<Props, State> {
             <div className="contentWithGuide">
                 {
                     waitDialog && (
-                      <WaitDialog title={waitDialog.title}>
-                          {waitDialog.text ? waitDialog.text : t('bitbox02Interact.followInstructions')}
-                      </WaitDialog>
+                        <WaitDialog title={waitDialog.title}>
+                            {waitDialog.text ? waitDialog.text : t('bitbox02Interact.followInstructions')}
+                        </WaitDialog>
                     )
                 }
                 <div className="container">
@@ -435,7 +435,7 @@ class BitBox02 extends Component<Props, State> {
                                 <div className={style.stepContext}>
                                     <p className="text-center">{t('bitbox02Wizard.stepConnected.unlock')}</p>
                                     <div className={style.passwordGesturesGifWrapper}>
-                                        <img class={style.passwordGesturesGif} src={passwordGif}/>
+                                        <img className={style.passwordGesturesGif} src={passwordGif} />
                                     </div>
                                 </div>
                                 <div className="text-center m-top-large">
@@ -457,14 +457,14 @@ class BitBox02 extends Component<Props, State> {
                                     <p>{t('bitbox02Wizard.stepUnpaired.verify')}</p>
                                     <pre>{hash}</pre>
                                     {
-                                            <div className={['buttons text-center', style.fullWidth].join(' ')}>
-                                                <Button
-                                                    primary
-                                                    onClick={() => this.channelVerify(true)}
-                                                    disabled={!deviceVerified}>
-                                                    {t('bitbox02Wizard.pairing.confirmButton')}
-                                                </Button>
-                                            </div>
+                                        <div className={['buttons text-center', style.fullWidth].join(' ')}>
+                                            <Button
+                                                primary
+                                                onClick={() => this.channelVerify(true)}
+                                                disabled={!deviceVerified}>
+                                                {t('bitbox02Wizard.pairing.confirmButton')}
+                                            </Button>
+                                        </div>
                                     }
                                 </div>
                                 <div className="text-center m-top-large">
@@ -479,7 +479,7 @@ class BitBox02 extends Component<Props, State> {
                                         title={t('bitbox02Wizard.stepUninitialized.title')}
                                         large>
                                         <Toast theme="info">
-                                            <div class="flex flex-items-center">
+                                            <div className="flex flex-items-center">
                                                 <img src={warning} style="width: 18px; margin-right: 10px" />
                                                 {t('bitbox02Wizard.initialize.tip')}
                                             </div>
@@ -586,7 +586,7 @@ class BitBox02 extends Component<Props, State> {
                                             }
                                             <p className="text-center">{t('bitbox02Wizard.stepPassword.useControls')}</p>
                                             <div className={style.passwordGesturesGifWrapper}>
-                                                <img class={style.passwordGesturesGif} src={passwordGif}/>
+                                                <img className={style.passwordGesturesGif} src={passwordGif} />
                                             </div>
                                         </div>
                                         <div className="text-center m-top-large">
@@ -623,10 +623,10 @@ class BitBox02 extends Component<Props, State> {
                                                         label={t('bitbox02Wizard.backup.userConfirmation3')} />
                                                 </div>
                                                 <div className="m-top-quarter">
-                                                    <Checkbox onChange={this.handleDisclaimerCheck} className={style.wizardCheckbox} id="agreement4" label={t('bitbox02Wizard.backup.userConfirmation4')}/>
+                                                    <Checkbox onChange={this.handleDisclaimerCheck} className={style.wizardCheckbox} id="agreement4" label={t('bitbox02Wizard.backup.userConfirmation4')} />
                                                 </div>
                                                 <div className="m-top-quarter">
-                                                    <Checkbox onChange={this.handleDisclaimerCheck} className={style.wizardCheckbox} id="agreement5" label={t('bitbox02Wizard.backup.userConfirmation5')}/>
+                                                    <Checkbox onChange={this.handleDisclaimerCheck} className={style.wizardCheckbox} id="agreement5" label={t('bitbox02Wizard.backup.userConfirmation5')} />
                                                 </div>
                                             </form>
                                             <div className={['buttons text-center', style.fullWidth].join(' ')}>
@@ -684,7 +684,7 @@ class BitBox02 extends Component<Props, State> {
                                             }
                                             <p className="text-center">{t('bitbox02Wizard.stepPassword.useControls')}</p>
                                             <div className={style.passwordGesturesGifWrapper}>
-                                                <img class={style.passwordGesturesGif} src={passwordGif}/>
+                                                <img className={style.passwordGesturesGif} src={passwordGif} />
                                             </div>
                                         </div>
                                     </Step>
@@ -748,7 +748,7 @@ class BitBox02 extends Component<Props, State> {
                                         active={status === 'initialized'}
                                         title={t('bitbox02Wizard.stepBackupSuccess.title')}>
                                         <div className={style.stepContext}>
-                                        <p className="m-bottom-default">{t('bitbox02Wizard.stepBackupSuccess.fundsSafe')}</p>
+                                            <p className="m-bottom-default">{t('bitbox02Wizard.stepBackupSuccess.fundsSafe')}</p>
                                             <ul>
                                                 <li>{t('bitbox02Wizard.backup.userConfirmation1')}</li>
                                                 <li>{t('bitbox02Wizard.backup.userConfirmation3')}</li>

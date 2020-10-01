@@ -83,7 +83,7 @@ class CopyableInput extends Component<Props, State> {
         { success }: State,
     ) {
         return (
-            <div class={['flex flex-row flex-start flex-items-start', style.container, className ? className : ''].join(' ')}>
+            <div className={['flex flex-row flex-start flex-items-start', style.container, className ? className : ''].join(' ')}>
                 <textarea
                     disabled={disabled}
                     readOnly
@@ -97,7 +97,7 @@ class CopyableInput extends Component<Props, State> {
                     onClick={this.copy}
                     className={[style.button, success && style.success, 'ignore'].join(' ')}
                     title={t('button.copy')}>
-                        <img src={success ? CheckIcon : disabled ? CopyDisabledIcon : CopyIcon} />
+                    <img src={success ? CheckIcon : disabled ? CopyDisabledIcon : CopyIcon} />
                 </button>
             </div>
         );

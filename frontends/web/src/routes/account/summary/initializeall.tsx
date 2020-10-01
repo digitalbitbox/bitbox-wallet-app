@@ -44,7 +44,7 @@ class InitializeAllAccounts extends Component<Props, State> {
             initialized[account.code] = false;
         });
         this.state = { initialized };
-      }
+    }
 
     private unsubscribe!: () => void;
 
@@ -66,9 +66,9 @@ class InitializeAllAccounts extends Component<Props, State> {
     private onEvent = (data: any) => {
         if (data.type === 'account') {
             switch (data.data) {
-                case 'statusChanged':
-                    this.onStatusChanged(data.code);
-                    break;
+            case 'statusChanged':
+                this.onStatusChanged(data.code);
+                break;
             }
         }
     }
@@ -98,7 +98,7 @@ class InitializeAllAccounts extends Component<Props, State> {
         return (
             <div className="contentWithGuide">
                 <div className="container">
-                    <Spinner text={`${t('accountSummary.synchronizing')} ${Object.values(initialized).filter(status => status).length}/${accounts.length}`}/>
+                    <Spinner text={`${t('accountSummary.synchronizing')} ${Object.values(initialized).filter(status => status).length}/${accounts.length}`} />
                 </div>
             </div>
         );

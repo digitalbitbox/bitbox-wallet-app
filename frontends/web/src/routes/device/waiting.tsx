@@ -16,8 +16,7 @@
 
 import { Component, h, RenderableProps } from 'preact';
 import { Entry } from '../../components/guide/entry';
-import { Guide } from '../../components/guide/guide';
-import { store as panelStore } from '../../components/guide/guide';
+import { Guide, store as panelStore } from '../../components/guide/guide';
 import { AppLogo, SwissMadeOpenSource } from '../../components/icon/logo';
 import { Footer, Header } from '../../components/layout';
 import { setSidebarStatus } from '../../components/sidebar/sidebar';
@@ -45,7 +44,7 @@ class Waiting extends Component<WaitingProps> {
         { t, testing }: RenderableProps<WaitingProps>,
     ) {
         return (
-            <div class="contentWithGuide">
+            <div className="contentWithGuide">
                 <div className="container">
                     <Header title={<h2>{t('welcome.title')}</h2>} />
                     <div className="content padded narrow isVerticallyCentered">

@@ -14,7 +14,7 @@
  * limitations under the License.
  */
 
- /* Imported svg source (excluding BitBox logos): http://cryptoicons.co/ */
+/* Imported svg source (excluding BitBox logos): http://cryptoicons.co/ */
 
 import { h } from 'preact';
 import AppLogoInvertedImg from './assets/app-logo-inverted.svg';
@@ -53,11 +53,12 @@ import ShiftLogo from './assets/shift-cryptosecurity-logo.svg';
 import * as style from './logo.css';
 
 interface GenericProps {
+    large?: boolean;
     [property: string]: any;
 }
 
-export const BitBox = (props: GenericProps) => <img {...props} draggable={false} src={BitBoxLogo} alt="BitBox" class={style.logo} />;
-export const BitBox02 = (props: GenericProps) => <img {...props} draggable={false} src={BitBox02Logo} alt="BitBox02" class={style.logo} />;
+export const BitBox = (props: GenericProps) => <img {...props} draggable={false} src={BitBoxLogo} alt="BitBox" className={style.logo} />;
+export const BitBox02 = (props: GenericProps) => <img {...props} draggable={false} src={BitBox02Logo} alt="BitBox02" className={style.logo} />;
 export const AppLogo = (props: GenericProps) => <img {...props} draggable={false} src={AppLogoImg} alt="BitBox" className={style.logo} />;
 export const AppLogoInverted = (props: GenericProps) => <img {...props} draggable={false} src={AppLogoInvertedImg} alt="BitBox" className={style.logo} />;
 export const BitBoxSwiss = (props: GenericProps) => <img {...props} draggable={false} src={BitBoxSwissLogo} alt="BitBox" className={style.logo} />;
@@ -67,15 +68,15 @@ export const SwissMadeOpenSource = (props: GenericProps) => <img {...props} drag
 export const BitBoxBaseLogo = (props: GenericProps) => <img {...props} draggable={false} src={BaseLogo} alt="BitBoxBase" className={style.logo} />;
 
 const logoMap = {
-    'btc': [BTC, BTC_GREY],
-    'tbtc': [BTC, BTC_GREY],
-    'rbtc': [BTC, BTC_GREY],
-    'ltc': [LTC, LTC_GREY],
-    'tltc': [LTC, LTC_GREY],
-    'eth': [ETH, ETH_GREY],
-    'teth': [ETH, ETH_GREY],
-    'reth': [ETH, ETH_GREY],
-    'erc20Test': [ETH, ETH_GREY],
+    btc: [BTC, BTC_GREY],
+    tbtc: [BTC, BTC_GREY],
+    rbtc: [BTC, BTC_GREY],
+    ltc: [LTC, LTC_GREY],
+    tltc: [LTC, LTC_GREY],
+    eth: [ETH, ETH_GREY],
+    teth: [ETH, ETH_GREY],
+    reth: [ETH, ETH_GREY],
+    erc20Test: [ETH, ETH_GREY],
 
     'eth-erc20-usdt': [USDT, USDT_GREY],
     'eth-erc20-usdc': [USDC, USDC_GREY],
@@ -102,11 +103,11 @@ function Logo({ coinCode, active, ...rest }: Props) {
     }
     return (
         <div>
-            { active ? <img draggable={false} src={logoMap[coinCode][0]} {...rest}/>
-              : <div class="stacked">
-                  <img draggable={false} src={logoMap[coinCode][1]} {...rest} />
-                  <img draggable={false} src={logoMap[coinCode][0]} {...rest} />
-              </div>}
+            { active ? <img draggable={false} src={logoMap[coinCode][0]} {...rest} />
+                : <div className="stacked">
+                    <img draggable={false} src={logoMap[coinCode][1]} {...rest} />
+                    <img draggable={false} src={logoMap[coinCode][0]} {...rest} />
+                </div>}
         </div>
     );
 }
