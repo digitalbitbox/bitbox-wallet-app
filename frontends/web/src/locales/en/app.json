@@ -1215,6 +1215,7 @@
       "address": "Address",
       "amount": "Amount",
       "date": "Date",
+      "fee": "Fee",
       "fiat": "Fiat",
       "fiatAmount": "Fiat amount",
       "status": "Status",
