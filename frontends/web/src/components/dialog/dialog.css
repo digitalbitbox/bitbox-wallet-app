@@ -232,6 +232,13 @@
     width: 50%;
 }
 
+.dialogButtons {
+    display: flex;
+    flex-direction: row-reverse;
+    justify-content: space-between;
+    margin-top: var(--space-default);
+}
+
 @media (max-width: 768px) {
     .modal {
         padding: 0;
