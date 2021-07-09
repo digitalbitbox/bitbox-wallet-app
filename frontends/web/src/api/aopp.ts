@@ -25,7 +25,7 @@ export interface Account {
 export interface Aopp {
     // See backend/aopp.go for a description of the states.
     state: 'error' | 'inactive' | 'user-approval' | 'awaiting-keystore' | 'choosing-account' | 'syncing' | 'signing' | 'success';
-    accounts: Account[];
+    accounts: Account[] | null;
     // See backend/errors.go for a description of the errors.
     errorCode: '' | 'aoppUnsupportedAsset' | 'aoppVersion' | 'aoppInvalidRequest' | 'aoppNoAccounts' | 'aoppUnsupportedKeystore' | 'aoppUnknown' | 'aoppSigningAborted' | 'aoppCallback';
     address: string;

@@ -216,7 +216,7 @@ class BuyInfo extends Component<Props, State> {
                                             },
                                             ...options]
                                         }
-                                        onChange={e => this.setState({ selected: e.target.value})}
+                                        onChange={(e: Event) => this.setState({ selected: (e.target as HTMLInputElement).value})}
                                         value={selected}
                                         defaultValue={'choose'}
                                         id="coinAndAccountCode"
