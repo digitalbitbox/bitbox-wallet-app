@@ -128,11 +128,11 @@ class Aopp extends Component<Props, State> {
                     };
                 });
                 return (
-                    <Fullscreen>
-                        <FullscreenHeader title={t('aopp.title')}>
-                            <p>{domain}</p>
-                        </FullscreenHeader>
-                        <form onSubmit={this.chooseAccount}>
+                    <form onSubmit={this.chooseAccount}>
+                        <Fullscreen>
+                            <FullscreenHeader title={t('aopp.title')}>
+                                <p>{domain}</p>
+                            </FullscreenHeader>
                             <FullscreenContent>
                                 <Select
                                     label={t('buy.info.selectLabel')}
@@ -146,8 +146,8 @@ class Aopp extends Component<Props, State> {
                                 <Button primary type="submit">{t('button.next')}</Button>
                                 <Button secondary onClick={aoppAPI.cancel}>{t('dialog.cancel')}</Button>
                             </FullscreenButtons>
-                        </form>
-                    </Fullscreen>
+                        </Fullscreen>
+                    </form>
                 );
             }
             case 'syncing':
