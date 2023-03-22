@@ -1,0 +1,21 @@
+<svg xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" id="flag-icons-vu" viewBox="0 0 640 480">
+  <defs>
+    <clipPath id="a">
+      <path d="M0 0v475l420-195h480v-85H420z"/>
+    </clipPath>
+  </defs>
+  <path fill="#009543" d="M0 0h640v480H0z"/>
+  <path fill="#d21034" d="M0 0h640v240H0z"/>
+  <g clip-path="url(#a)" transform="scale(.71111 1.01053)">
+    <path stroke="#fdce12" stroke-width="110" d="M0 0l420 195h480v85H420L0 475"/>
+    <path fill="none" stroke="#000" stroke-width="60" d="M0 0l420 195h480m0 85H420L0 475"/>
+  </g>
+  <g fill="#fdce12" transform="translate(-22) scale(1.01053)">
+    <path d="M107 283v27c23 0 70-18 70-76s-50-69-64-69c-15 0-61 11-61 58 0 48 45 52 54 52s42-8 38-44a36 36 0 01-36 32c-24 0-39-18-39-36 0-17 15-41 40-41 26 0 44 23 44 45 0 23-18 52-46 52z"/>
+    <g id="b">
+      <path stroke="#fdce12" d="M86 248l2 1s11-26 41-44c-4 2-24 12-43 43z"/>
+      <path d="M89 243s-3-7 0-10 1 8 1 8l2-1s-2-9 0-11 1 8 1 8l1-1s-1-9 1-10c3-2 1 8 1 8l2-2s-1-8 1-10c3-2 1 7 1 7l1-2s-1-7 2-9c2-1 0 7 0 7l2-1s-1-7 1-9c3-2 1 7 1 7l1-2s0-7 3-8-1 6-1 6l2-1s1-8 3-9c3-1-1 7-1 7l2-1s1-7 3-8c3-1-1 6-1 6l2-1s1-7 4-8c2 0-3 7-3 7l2-1s3-7 5-7-3 5-3 5l3-1s3-7 4-5c2 2-5 5-5 5l-2 1s8-3 9-1c1 1-11 3-11 3l-1 1s7-2 6 0-8 1-8 1l-2 1s8-1 7 0c-1 2-9 2-9 2l-1 1s7-2 6 1c-1 2-10 2-10 2l-2 2s8-3 7-1c0 2-9 3-9 3l-2 2s8-2 6 0c-3 3-9 3-9 3l-2 3s8-5 7-2-9 5-9 5l-2 2s8-5 7-2c-1 2-9 5-9 5l-1 2s9-6 8-3-9 5-9 5l-1 1s8-4 8-2-10 4-10 4v-2z"/>
+    </g>
+    <use xlink:href="#b" width="100%" height="100%" transform="matrix(-1 0 0 1 220 0)"/>
+  </g>
+</svg>

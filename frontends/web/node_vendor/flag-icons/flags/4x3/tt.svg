@@ -1,0 +1,5 @@
+<svg xmlns="http://www.w3.org/2000/svg" id="flag-icons-tt" viewBox="0 0 640 480">
+  <path fill="#fff" d="M0 0h640v480H0z"/>
+  <path fill="#e00000" fill-rule="evenodd" d="M464 480L0 1v479h464zM176 0l464 479V0H176z"/>
+  <path fill-rule="evenodd" d="M28 0h118l469 480H492L28 0z"/>
+</svg>

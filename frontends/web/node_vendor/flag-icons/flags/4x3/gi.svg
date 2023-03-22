@@ -1,0 +1,28 @@
+<svg xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" id="flag-icons-gi" viewBox="0 0 640 480">
+  <path fill="#da000c" d="M0 0h640v480H0z"/>
+  <path fill="#fff" d="M0 0h640v322H0z"/>
+  <g stroke="#000" transform="translate(-160) scale(1.875)">
+    <g id="a" fill="#da000c" stroke-linecap="square">
+      <path fill="#000" stroke="none" d="M197 116h64v44h-64z"/>
+      <path d="M230 154h-39l-9 6v6h48m-16-37c5 0 10 4 10 10v15h7V98h-40v56h12v-15c0-6 5-10 10-10z"/>
+      <path fill="#000" stroke="none" d="M205 60h18v34h-19z"/>
+      <path d="M223 89h-16v-6h-12v6h-8v-6h-5v10h41m-36 0h35v5h-35zm14-45v35h6V73c0-3 2-6 6-7h0a7 7 0 017 7v10h6V48zm-2-5v5h29v-5zm-4-9v9h35v-9h-5v4h-7v-4h-10v4h-7v-4zm-13 126h48m31-3h-32l-10 4v7h42"/>
+      <path stroke-linecap="butt" d="M219 162h43"/>
+    </g>
+    <use xlink:href="#a" width="100%" height="100%" transform="matrix(-1 0 0 1 512 0)"/>
+    <g fill="#f8d80e">
+      <g stroke-linecap="round">
+        <path d="M273 150l-7 4a72 72 0 00-9 6l-3 2-2 4 2-1a4 4 0 013-1l4-3a77 77 0 0113-8l-1-3zM260 157v4m3-5v4m2-6v4m3-5v4"/>
+        <path d="M239 150l-1 3a87 87 0 0116 9l4 3c1 1 0 2-1 2h-2l-1 2c3 2 6 1 8-2l-1-4-7-6a89 89 0 00-15-7zM254 158v3m3-1l-1 3m4-1l-2 3m3 3l-3-1m3-2l-3 1m0 4l-1-3m-1 0l-2 2m-9-16v3m6 0v4m-3-5v3"/>
+      </g>
+      <path d="M236 228v8h5v-4h7v4h5v-8zm0 11v8h17v-8h-5v4h-7v-4zM253 194h5v58h-5z"/>
+      <path d="M253 199h5v50h-5zm3-20l10 7-10 6-11-6zm-15 4h-2v5h2l15 8 14-8h3v-5h-3l-14-8z"/>
+      <path d="M255 164a5 5 0 00-4 5v12a5 5 0 005 4 5 5 0 005-3l-2-1a3 3 0 01-3 2c-2 0-3-1-3-3v-11a3 3 0 013-3h2c1-1 0-1-1-2h-2zm6 4a5 5 0 01-2 2v7l2 1v-10z"/>
+    </g>
+    <g fill="#da000c">
+      <path fill="#000" d="M241 38h29v54h-29z" stroke="none"/>
+      <path d="M239 38v45h9V70c0-3 2-8 8-8s8 5 8 8v13h9V38zm16 5h2v16h-2zm-9 3h3v11h-3zm17 0h3v11h-3zm-27-14v6h40v-6zm-4-7v7h48v-7h-6v4h-7v-4h-8v4h-6v-4h-8v4h-7v-4zm-9 73v4h66v-4zM220 83v15h72V83h-7v6h-9v-6h-12v6h-16v-6h-12v6h-9v-6z"/>
+      <path stroke-linejoin="round" d="M229 102v55h12v-21c1-9 7-14 15-14s15 5 15 14v21h12v-55z"/>
+    </g>
+  </g>
+</svg>

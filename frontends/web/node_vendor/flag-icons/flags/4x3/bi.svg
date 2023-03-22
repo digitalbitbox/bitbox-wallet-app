@@ -1,0 +1,15 @@
+<svg xmlns="http://www.w3.org/2000/svg" id="flag-icons-bi" viewBox="0 0 640 480">
+  <defs>
+    <clipPath id="a">
+      <path d="M-90 0h682v512H-90z"/>
+    </clipPath>
+  </defs>
+  <g fill-rule="evenodd" clip-path="url(#a)" transform="translate(85) scale(.9375)">
+    <path fill="#18b637" d="M-178 0l429 256-429 256zm858 0L251 256l429 256z"/>
+    <path fill="#cf0921" d="M-178 0l429 256L680 0zm0 512l429-256 429 256z"/>
+    <path fill="#fff" d="M680 0h-80l-778 464v48h80L680 48z"/>
+    <path fill="#fff" d="M399 256a148 148 0 11-296 0 148 148 0 01296 0z"/>
+    <path fill="#fff" d="M-178 0v48l778 464h80v-48L-98 0z"/>
+    <path fill="#cf0921" stroke="#18b637" stroke-width="4" d="M280 200h-19l-10 17-10-16-19-1 9-17-9-17h19l10-16 10 16h19l-9 17zm-65 112h-19l-10 16-10-16h-19l9-17-9-17h19l10-17 10 17h20l-10 17zm131 0h-19l-10 16-10-16h-19l9-17-9-17h19l10-17 10 17h19l-9 17z"/>
+  </g>
+</svg>

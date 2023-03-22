@@ -1,0 +1,13 @@
+<svg xmlns="http://www.w3.org/2000/svg" id="flag-icons-ao" viewBox="0 0 640 480">
+  <g fill-rule="evenodd">
+    <path fill="red" d="M0 0h640v244H0z"/>
+    <path d="M0 236h640v244H0z"/>
+  </g>
+  <path fill="#ffec00" fill-rule="evenodd" d="M229 148c165 43 59 256-72 167l-8 14c76 55 152 11 174-46 22-59-8-142-93-150l-1 15z"/>
+  <path fill="#ffec00" fill-rule="evenodd" d="M170 331l22 10-11 22-21-10zm149-100h24v24h-24zm-12-39l23-8 8 22-22 9zm-26-29l17-17 17 17-17 17zm-26-39l23 8-9 22-22-8zm61 146l22 9-9 22-22-9zm-70 70l22-9 10 22-22 9zm-39 3h24v24h-24zm41-116l-20-15-21 14 8-23-20-15h24l9-22 8 23 24-1-19 15 7 24z"/>
+  <path fill="#fe0" fill-rule="evenodd" d="M336 346l-10 19 4 1c14 4 20 9 26 17a8 8 0 0010 1l7-5c3-5 2-8-2-11l-35-22z"/>
+  <path fill-rule="evenodd" d="M365 373a4 4 0 11-8 0 4 4 0 018 0zm-21-14a4 4 0 11-9 0 4 4 0 019 0zm11 7a4 4 0 11-9 0 4 4 0 019 0z"/>
+  <path fill="#fe0" fill-rule="evenodd" d="M325 364l-130-75c-19-12-20-34-7-50 1-2 2-2 3-1 1 8 6 17 11 22a5288 5288 0 01132 86l-9 18z"/>
+  <path fill="#ffec00" fill-rule="evenodd" d="M297 306l18 16-16 17-18-16z"/>
+  <path fill="none" stroke="#000" stroke-width="3" d="M332 349l-125-76m109 58l-42-27m18 43l-43-25"/>
+</svg>

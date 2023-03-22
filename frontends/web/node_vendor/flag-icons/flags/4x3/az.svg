@@ -1,0 +1,8 @@
+<svg xmlns="http://www.w3.org/2000/svg" id="flag-icons-az" viewBox="0 0 640 480">
+  <path fill="#3f9c35" d="M0 0h640v480H0z"/>
+  <path fill="#ed2939" d="M0 0h640v320H0z"/>
+  <path fill="#00b9e4" d="M0 0h640v160H0z"/>
+  <circle cx="304" cy="240" r="72" fill="#fff"/>
+  <circle cx="320" cy="240" r="60" fill="#ed2939"/>
+  <path fill="#fff" d="M384 200l8 22 20-10-9 20 21 8-21 8 9 20-20-9-8 21-8-21-20 9 9-20-21-8 22-8-10-20 20 10 8-22z"/>
+</svg>

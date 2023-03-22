@@ -1,0 +1,15 @@
+<svg xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" id="flag-icons-tf" viewBox="0 0 640 480">
+  <defs>
+    <path id="a" fill="#fff" d="M0-21l12 38-32-23h40l-32 23z"/>
+  </defs>
+  <path fill="#002395" d="M0 0h640v480H0z"/>
+  <path fill="#fff" d="M0 0h293v197H0z"/>
+  <path fill="#002395" d="M0 0h96v192H0z"/>
+  <path fill="#ed2939" d="M192 0h96v192h-96z"/>
+  <path fill="#fff" d="M426 220l15 24h44v86l-33-52-44 71h22l22-41 47 84 47-84 23 41h21l-44-71-33 52v-47h20l14-24h-34v-15h44l15-24H426zm52 105h-48v16h48zm91 0h-48v16h48z"/>
+  <use xlink:href="#a" width="100%" height="100%" x="416" y="362" transform="scale(1.2)"/>
+  <use xlink:href="#a" width="100%" height="100%" x="371" y="328" transform="scale(1.2)"/>
+  <use xlink:href="#a" width="100%" height="100%" x="461" y="328" transform="scale(1.2)"/>
+  <use xlink:href="#a" width="100%" height="100%" x="333" y="227" transform="scale(1.2)"/>
+  <use xlink:href="#a" width="100%" height="100%" x="499" y="227" transform="scale(1.2)"/>
+</svg>

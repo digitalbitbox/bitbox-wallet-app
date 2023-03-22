@@ -1,0 +1,22 @@
+<svg xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" id="flag-icons-tj" viewBox="0 0 640 480">
+  <path fill="#060" d="M0 0h640v480H0z"/>
+  <path fill="#fff" d="M0 0h640v343H0z"/>
+  <path fill="#c00" d="M0 0h640v137H0z"/>
+  <path fill="#f8c300" d="M301 234a9 9 0 0116 4v34h6v-34a9 9 0 0116-4 20 20 0 10-38 0"/>
+  <path fill="#fff" d="M305 225a14 14 0 0115 6 14 14 0 0115-6 15 15 0 00-30 0"/>
+  <path id="a" fill="#f8c300" d="M317 258a26 26 0 01-44 17 27 27 0 01-41 12c3 25 40 20 43-4 12 20 37 14 45-11z"/>
+  <use xlink:href="#a" width="100%" height="100%" fill="#f8c300" transform="matrix(-1 0 0 1 640 0)"/>
+  <path id="b" fill="#f8c300" d="M292 303c-5 11-16 13-25 4l8-4c-1-3 0-7 3-9a15 15 0 016 8c5-1 8 1 8 1z"/>
+  <use xlink:href="#b" width="100%" height="100%" fill="#f8c300" transform="rotate(9 320 551)"/>
+  <use xlink:href="#b" width="100%" height="100%" fill="#f8c300" transform="rotate(19 320 551)"/>
+  <path fill="none" stroke="#f8c300" stroke-width="11" d="M254 328a233 233 0 01133 0"/>
+  <g fill="#f8c300" transform="translate(320 165) scale(.68571)">
+    <path id="c" d="M301930 415571l-790463-574305h977066l-790463 574305L0-513674z" transform="scale(.00005)"/>
+  </g>
+  <g id="d" fill="#f8c300" transform="translate(320 261) scale(.68571)">
+    <use xlink:href="#c" width="100%" height="100%" transform="translate(-70 -121)"/>
+    <use xlink:href="#c" width="100%" height="100%" transform="translate(-121 -70)"/>
+    <use xlink:href="#c" width="100%" height="100%" transform="translate(-140)"/>
+  </g>
+  <use xlink:href="#d" width="100%" height="100%" fill="#f8c300" transform="matrix(-1 0 0 1 640 0)"/>
+</svg>

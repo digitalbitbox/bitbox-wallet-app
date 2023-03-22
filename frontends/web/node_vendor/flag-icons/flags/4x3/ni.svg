@@ -1,0 +1,129 @@
+<svg xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" id="flag-icons-ni" viewBox="0 0 640 480">
+  <defs>
+    <linearGradient id="f" x1="499" x2="501" y1="289" y2="283" gradientUnits="userSpaceOnUse">
+      <stop offset="0" stop-color="#510000"/>
+      <stop offset="0" stop-color="#8a0000"/>
+      <stop offset="1" stop-color="#a00"/>
+    </linearGradient>
+    <linearGradient id="g" x1="501" x2="503" y1="291" y2="287" gradientUnits="userSpaceOnUse">
+      <stop offset="0" stop-color="#ff2a2a"/>
+      <stop offset="1" stop-color="red"/>
+    </linearGradient>
+    <linearGradient id="b" x1="485" x2="485" y1="312" y2="318" gradientUnits="userSpaceOnUse">
+      <stop offset="0" stop-color="#F5F549"/>
+      <stop offset="1" stop-color="#97C924"/>
+    </linearGradient>
+    <linearGradient id="a">
+      <stop offset="0" stop-color="#025"/>
+      <stop offset="1" stop-color="#04a"/>
+      <stop offset="1" stop-color="#025"/>
+    </linearGradient>
+    <linearGradient xlink:href="#a" id="h" x1="445" x2="634" y1="318" y2="318" gradientUnits="userSpaceOnUse"/>
+    <linearGradient xlink:href="#b" id="v" x1="485" x2="485" y1="312" y2="318" gradientUnits="userSpaceOnUse"/>
+    <linearGradient xlink:href="#a" id="o" x1="445" x2="634" y1="318" y2="318" gradientUnits="userSpaceOnUse"/>
+    <linearGradient xlink:href="#a" id="p" x1="445" x2="634" y1="318" y2="318" gradientUnits="userSpaceOnUse"/>
+    <linearGradient xlink:href="#a" id="q" x1="445" x2="634" y1="318" y2="318" gradientUnits="userSpaceOnUse"/>
+    <linearGradient xlink:href="#a" id="r" x1="445" x2="634" y1="318" y2="318" gradientUnits="userSpaceOnUse"/>
+    <linearGradient xlink:href="#b" id="u" x1="485" x2="485" y1="312" y2="318" gradientUnits="userSpaceOnUse"/>
+    <linearGradient xlink:href="#a" id="x" x1="99" x2="125" y1="1440" y2="1440" gradientTransform="scale(4.45715 .22436)" gradientUnits="userSpaceOnUse"/>
+    <linearGradient xlink:href="#a" id="j" x1="445" x2="634" y1="318" y2="318" gradientUnits="userSpaceOnUse"/>
+    <linearGradient xlink:href="#a" id="l" x1="445" x2="634" y1="318" y2="318" gradientUnits="userSpaceOnUse"/>
+    <linearGradient xlink:href="#a" id="m" x1="445" x2="634" y1="318" y2="318" gradientUnits="userSpaceOnUse"/>
+    <linearGradient xlink:href="#a" id="i" x1="445" x2="634" y1="318" y2="318" gradientUnits="userSpaceOnUse"/>
+    <linearGradient xlink:href="#b" id="s" x1="485" x2="485" y1="312" y2="318" gradientUnits="userSpaceOnUse"/>
+    <linearGradient xlink:href="#a" id="y" x1="48" x2="62" y1="3054" y2="3054" gradientTransform="scale(9.12405 .1096)" gradientUnits="userSpaceOnUse"/>
+    <clipPath id="c">
+      <path d="M500 226l-64 111h128z"/>
+    </clipPath>
+  </defs>
+  <path fill="#0067c6" d="M0 0h640v480H0z"/>
+  <path fill="#fff" d="M0 160h640v160H0z"/>
+  <path fill="#c8a400" d="M248 240h8v-1h-3v-4l3-3 1-1-4 2-1-2-3 1-1 2v6zm1-2v-4l1-1a1 1 0 012 0v5h-3zm0-11l8 2 2-8a198 198 0 01-1 0l-2 7-2-1 1-6h-1l-1 6-2-1 1-6h-1l-2 7zm3-10l7 2 1-1-3-1 1-3v-3a3 3 0 00-2-1l-2 1-1 4-1 2zm1-1l2-3 1-2a1 1 0 011 1l-1 3v2l-3-1zm3-9l4 3h3a7 7 0 002-3l1-3-3-2-3-2v1l4 2 1 2a6 6 0 01-2 3l-1 1-3-1-2-2-1 1zm6-9l6 5 3-4 1-3a3 3 0 00-2-2l-1 1-2-2-2 1-2 2-1 2zm1-1l3-2 1-1 1 1-2 3-1 1-2-2zm3 2l2-3h2l1 1-2 3-1 1-2-2zm3-10l6 6 4-4-1-1-3 3-5-5zm7-6l5 6h1l-5-7zm7-5a7 7 0 00-2 2 4 4 0 000 4 4 4 0 002 2 4 4 0 002 0 7 7 0 002-1 5 5 0 002-2l1-2h-1c0 2-1 2-2 3h-5c-1-2 0-4 2-5h3l1-1a3 3 0 00-2-1l-3 1zm10-5l-1 9h1v-3l4-1 3 1h1l-7-6h-1zm1 1l2 3-3 1 1-4zm16-6l1 8h4l3-1 1-4a4 4 0 00-3-3h-3l-3 1zm1 2l4-1a3 3 0 012 1l1 2a3 3 0 01-2 3h-4l-1-5zm10-2v8h8v-1h-7v-2h6v-1l-6-1v-2l7 1v-2h-8zm21 3l-3 8h1l3-6 3 8 1 1 3-8h-1l-2 6h-1l-2-8zm11 5l-4 7h-1l4-8zm6 4a7 7 0 00-2-1 4 4 0 00-4 1 4 4 0 00-1 2l1 2 2 2a6 6 0 002 1 4 4 0 003-1h-1c-2 1-3 0-4-1-2-1-2-3-1-4 1-2 3-2 4-1l2 3h1a3 3 0 000-2l-2-2zm8 5l-9 4h4l3 2v3l1 1 2-9-1-1zm-1 2v3l-3-2 3-1zm7 4l-7 5 1 1 3-2 2 3-1 4 1 1 1-4h3l1-2-1-3-3-3zm-1 1l3 4 1 2h-2l-3-3v-1l2-2zm10 11l-9 1 1 1h2l3 4-2 2 1 1 5-7-1-2zm-1 2l-2 3-1-3h3zm6 9c0-1-1-3-3-3a4 4 0 00-4 1l-1 4 2 4v1l4-1-2-4 1 3h-2a7 7 0 01-2-3l1-4h3l2 3v4a3 3 0 002-2 7 7 0 00-1-3zm2 6l-4 1a4 4 0 00-2 1 3 3 0 00-1 2v2l1 2 2 1a4 4 0 002 0l4-1v-1l-5 1c-2 1-2 0-3-2 0-2 0-3 2-4h5l-1-2zm3 14l-8-4v2l2 1 1 4-3 2v1l8-5v-1zm-1 1l-3 2-1-4 4 2zm-137 20h-1l1 5h2zm132 0h1l-1 5h-2zm-119 20l-9 1v1h3l3 4-2 2 1 1 4-8v-1zm-1 1l-2 3-2-2 4-1zm4 4l-6 5 1 1 5-4-3 7 1 1 7-2-5 4 1 1 6-6-1-1-7 2 2-7zm8 8l-4 7 6 5v-1l-5-4 2-2 4 3 1-1-5-3 2-2 5 4v-1l-6-4zm8 6l-4 7 1 1 2-3 3 2 1 4 1 1v-5h2l1-2-2-2-5-3zm1 2l3 2 1 1-1 1-3-1-2-1 2-2zm8 3l-3 7 1 1 3-8zm7 2a7 7 0 00-2 0 4 4 0 00-4 3 4 4 0 000 2l1 2a6 6 0 003 1 5 5 0 003 0 3 3 0 002-1h-5c-2-1-3-2-2-4 0-2 2-2 4-1l2 2h2a3 3 0 00-1-2 5 5 0 00-3-1zm8 2l-5 8h2l1-3 5 1v3h2l-3-9h-2zm1 2l1 3-3-1 2-2zm18-2l-2 1a4 4 0 00-2 4l1 2 2 1h3l2-1a3 3 0 001-2h-1c0 2-1 2-3 2-2 1-3 0-4-2 0-2 2-3 3-4l4 1h1a3 3 0 00-2-2 5 5 0 00-3 0zm6-1l2 8 7-2v-1l-6 2-1-3 6-1-1-1-5 1-1-2 6-2v-1l-7 2zm8-2l4 7h1l-3-6 8 3h1l-3-8-1 1 2 6-8-4-1 1zm9-4l1 1 2-2h1l3 5h1l-3-6 3-2-1-1zm8-6l5 6 1-1-2-2 3-3 4 1 1-1-4-1v-2l-2-2-3 2-3 3zm2 0l3-3h2v1l-2 3-2 1-1-2zm7-9l4 8 1-1-1-3 2-3 3 1 1-1-9-2-1 1zm2 0l3 1-2 2-1-3zm2-5l7 4 3-5h-1l-3 4-6-4z"/>
+  <g clip-path="url(#c)" transform="matrix(.8 0 0 .8 -80 0)">
+    <path fill="#fff" d="M500 226l-31 55-16 27h94l-15-26-32-56z"/>
+    <g id="e">
+      <g id="d">
+        <path fill="#17c0eb" stroke="#17c0eb" stroke-width="0" d="M500 226l-2 4 2 55 2-55z"/>
+        <path fill="#fff" d="M500 278v3-3z"/>
+      </g>
+      <use xlink:href="#d" width="100%" height="100%" transform="rotate(72 500 286)"/>
+      <use xlink:href="#d" width="100%" height="100%" transform="rotate(144 500 286)"/>
+      <use xlink:href="#d" width="100%" height="100%" transform="rotate(-144 500 286)"/>
+      <use xlink:href="#d" width="100%" height="100%" transform="rotate(-72 500 286)"/>
+    </g>
+    <use xlink:href="#e" width="100%" height="100%" transform="rotate(8 500 286)"/>
+    <use xlink:href="#e" width="100%" height="100%" transform="rotate(16 500 286)"/>
+    <use xlink:href="#e" width="100%" height="100%" transform="rotate(24 500 286)"/>
+    <use xlink:href="#e" width="100%" height="100%" transform="rotate(32 500 286)"/>
+    <use xlink:href="#e" width="100%" height="100%" transform="rotate(40 500 286)"/>
+    <use xlink:href="#e" width="100%" height="100%" transform="rotate(48 500 286)"/>
+    <use xlink:href="#e" width="100%" height="100%" transform="rotate(56 500 286)"/>
+    <use xlink:href="#e" width="100%" height="100%" transform="rotate(64 500 286)"/>
+    <path fill="red" d="M500 266a44 44 0 00-29 11l-15 25a45 45 0 000 8h5a39 39 0 0178 0h5a45 45 0 000-8l-15-25a44 44 0 00-29-11z"/>
+    <path fill="#f60" d="M500 267a44 44 0 00-30 12l-12 21a44 44 0 00-2 10h5a39 39 0 0178 0h5a44 44 0 00-2-10l-12-21a44 44 0 00-30-12z"/>
+    <path fill="#ff0" d="M500 268a43 43 0 00-32 14l-9 15a43 43 0 00-2 13h4a39 39 0 0178 0h4l-2-13-9-15a43 43 0 00-32-14z"/>
+    <path fill="#0f0" d="M500 268a42 42 0 00-35 19l-3 5a42 42 0 00-4 18h3a39 39 0 0178 0h3a42 42 0 00-4-18l-3-5a42 42 0 00-35-19z"/>
+    <path fill="#0cf" d="M500 269a41 41 0 00-41 41h2a39 39 0 0178 0h2a41 41 0 00-41-41z"/>
+    <path fill="#00f" d="M500 270a40 40 0 00-40 40h1a39 39 0 1178 0h1a40 40 0 00-40-40z"/>
+    <path fill="purple" d="M500 271a40 40 0 00-40 40h1v-1a39 39 0 1178 1h1v-1a40 40 0 00-40-39z"/>
+    <path fill="#510000" d="M500 288h-1a2 2 0 00-1 2l1 1v2l1 1 1-1 1-2c0-2-1-2-2-3z"/>
+    <path fill="red" d="M497 284h-2v-1a5 5 0 012-3c3-1 4-1 5 1l3 6-1 2c-1 1-4-2-6-1h-2v-2l2-3h-1z"/>
+    <path fill="url(#f)" d="M497 283l-2 1h2a5 5 0 00-2 2v2l2 1c2 1 2 3 4 3s1-2 3-1v-2a14 14 0 00-5 0v-4-3l-2 1z"/>
+    <path fill="#ff2a2a" d="M501 280v2l1 1v1l1-1v-1a15 15 0 00-1-1 4 4 0 00-1-1z"/>
+    <path fill="url(#g)" d="M501 287h-2c-1-1-2-2-3-1l-1 1v1c1-1 3 1 3 1l2 1v4l2-1v-2l2-1h1v-1l-1-1-3-1z"/>
+    <path fill="#910000" d="M498 289s-2-2-3-1v-1l1-1h3l-1 3z"/>
+    <path fill="#ff3a3a" d="M502 291l2-1 1-1-3 1-2 4 2-3z"/>
+    <g fill="url(#h)">
+      <path fill="#fff" d="M453 308l-10 17h114l-10-17h-94z"/>
+      <g id="n" fill="url(#i)">
+        <path id="k" fill="url(#j)" d="M450 321a36 36 0 00-5 1v1l7-1 9 1h5l10-1 9 1h5l10-1 10 1h4l10-1 10 1h4l10-1 7 1v-1a38 38 0 00-4-1h-5l-10 1-10-1h-4l-10 1-10-1h-4l-10 1-10-1h-4l-10 1-10-1h-4z"/>
+        <use xlink:href="#k" width="100%" height="100%" y="-1" fill="url(#l)"/>
+        <use xlink:href="#k" width="100%" height="100%" y="-2" fill="url(#m)"/>
+      </g>
+      <use xlink:href="#n" width="100%" height="100%" y="-3" fill="url(#o)"/>
+      <use xlink:href="#n" width="100%" height="100%" y="-7" fill="url(#p)"/>
+      <path fill="url(#q)" d="M453 308h94v-1h-94zm0 0h94-94zm0 0h94-94zm0 1h-1 96-95zm-1 0v1h96v-1h-96zm0 1h97-97zm-1 1h98-98zm0 0v1h98v-1h-98z"/>
+      <path fill="url(#r)" d="M457 312h4zm82 0h4z"/>
+    </g>
+    <g fill="#ccd11e">
+      <g id="t">
+        <path fill="url(#s)" d="M531 297l-3 1c-2 10-11 21-22 21h-8v11h61l-6-11c-10-1-18-11-20-21l-2-1z"/>
+        <path fill="#97c924" d="M531 298h-2a34 34 0 01-9 15c-4 4-9 7-14 7h-8v10h61l-6-10c-4-1-9-4-12-7a34 34 0 01-9-15 3 3 0 00-1-1z"/>
+        <path fill="#ede71f" d="M531 298v10a13 13 0 01-2 7l-2 3a25 25 0 01-5 1h-11a23 23 0 009-6 31 31 0 002-3 34 34 0 004-4l1-2a34 34 0 001-3 30 30 0 001-3h2z"/>
+        <path fill="#c6cb24" d="M530 299c0 6-2 13-7 18l-5 2c6-5 10-14 12-20z"/>
+        <path fill="#9ecb34" d="M525 309c-1 3-5 7-9 10h-3c2 0 8-5 12-10z"/>
+      </g>
+      <use xlink:href="#t" width="100%" height="100%" x="-15"/>
+      <g fill="#c6cb24">
+        <path fill="url(#u)" d="M502 298c3 11 12 21 23 21h8v11h-66v-11h8c11 0 20-11 23-21l2-1 2 1z"/>
+        <path fill="#97c924" d="M500 298h2a34 34 0 008 15c4 4 9 7 15 7h7v10h-64v-10h7c6 0 11-3 15-7a34 34 0 008-15 3 3 0 012-1z"/>
+        <path fill="#ede71f" d="M499 298h-1a29 29 0 01-1 3 34 34 0 01-1 3 34 34 0 01-1 2 34 34 0 01-3 4 31 31 0 01-2 3 23 23 0 01-10 6c3 1 4 0 6-1l6-1 2-3 3-6c2-3 2-9 2-10z"/>
+        <path d="M499 299c0 6-2 13-6 18l-6 2c7-5 11-14 12-20z"/>
+        <path fill="#9ecb34" d="M494 309a31 31 0 01-9 10h-3c3 0 8-5 12-10z"/>
+        <path fill="#ede71f" d="M501 298h1a32 32 0 001 3 34 34 0 001 3l1 2a34 34 0 003 4 31 31 0 002 3 24 24 0 0010 6c-7 0-10 0-13-4a19 19 0 01-4-7l-2-10z"/>
+        <path d="M502 299c0 6 2 12 6 16l6 3a31 31 0 01-12-19z"/>
+      </g>
+      <g id="w">
+        <path fill="url(#v)" d="M485 297l-2 1c-3 10-12 22-22 24l-5 8h49v-11c-9-3-16-12-18-21l-2-1z"/>
+        <path fill="#97c924" d="M485 298h-2a43 43 0 01-8 15c-4 4-10 9-14 9l-5 8h48v-11a23 23 0 01-9-6 34 34 0 01-8-15h-1a3 3 0 00-1 0z"/>
+        <path fill="#93bc30" d="M483 299c0 9-5 20-11 22l-6 1a36 36 0 0017-23z"/>
+        <path fill="#ede71f" d="M485 298h-1v10l2 7h1c0 1 0 2 2 3a22 22 0 0015 4l-4-3h5a23 23 0 01-10-6 31 31 0 01-1-2h-1a35 35 0 01-3-5 34 34 0 01-1-2 34 34 0 01-2-4 32 32 0 010-2h-1a4 4 0 00-1 0z"/>
+        <path d="M485 299c1 6 3 13 7 18l6 2a39 39 0 01-13-20z"/>
+        <path fill="#9ecb34" d="M490 307a35 35 0 0014 15h3c-5-2-12-6-17-15z"/>
+      </g>
+      <use xlink:href="#w" width="100%" height="100%" x="-15" fill="#c6cb24"/>
+    </g>
+    <path fill="#fff" d="M557 325h-11l-11 1-10-1h-3l-10 1-10-1h-4l-9 1-11-1h-3l-10 1-10-1h-4l-8 1-7 11h128z"/>
+    <path fill="url(#x)" d="M548 323h-1l-11 1-12-1-12 2-13-1-12 2-11-1-12 2-12-1-10 2-1 1 11-1h15l11-1h10l8-1h15l9-1h5l9 1 10-1h13l-1-1-8-1z"/>
+    <g id="A">
+      <path id="z" fill="url(#y)" d="M450 335l-9 1a32 32 0 01-4-1v1h6l9-1 10 1h4l10-1 10 1h4l10-1 9 1h5l10-1 9 1h5l9-1 10 1h6v-1l-3 1-10-1h-4l-10 1-10-1h-4l-10 1-10-1h-4l-10 1-9-1h-5l-10 1-9-1h-5z"/>
+      <use xlink:href="#z" width="100%" height="100%" y="-1"/>
+      <use xlink:href="#z" width="100%" height="100%" y="-3"/>
+    </g>
+    <use xlink:href="#A" width="100%" height="100%" y="-4"/>
+    <use xlink:href="#A" width="100%" height="100%" y="-8"/>
+    <path fill="#97c924" d="M444 325l-3 4 11-2 12 1 11-1h12l12-1h13l12-1 12 1 12-2h8l-2-3-101 3z"/>
+    <path fill="#fff" d="M550 325h4a91 91 0 003 0h-1-6z"/>
+  </g>
+  <path fill="#c8a400" d="M320 180l-26 44-26 46h104l-26-45-26-45zm0 2l25 44 25 43H270l25-44z"/>
+</svg>

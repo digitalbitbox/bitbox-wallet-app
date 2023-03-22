@@ -1,0 +1,57 @@
+<svg xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" id="flag-icons-kh" viewBox="0 0 640 480">
+  <path fill="#032ea1" d="M0 0h640v480H0z"/>
+  <path fill="#e00025" d="M0 120h640v240H0z"/>
+  <g fill="#fff" stroke="#000" transform="matrix(1.2 0 0 1.2 86 -522)">
+    <g stroke-linejoin="bevel">
+      <path d="M139 624h114v43H139z"/>
+      <path d="M247 648h4v16h-4zm-108-8h114v5H139zm0-7h114v4H139zM139 626h114v4H139zM169 648h4v16h-4zm49 0h4v16h-4zm-78 0h4v16h-4zm7 0h4v16h-4zm8 0h3v16h-3zm7 0h4v16h-4zm63 0h3v16h-3zm7 0h4v16h-4zm8 0h3v16h-3z"/>
+      <path stroke-linejoin="miter" d="M95 670a9 9 0 004-6h193a9 9 0 004 6z"/>
+    </g>
+    <path d="M193 557s0-4 2-4c3 0 3 4 3 4zm-12 54v-5c0-3-3-3-3-5v-5c1 4 3 4 3 2l-3-6v-6c1 3 1 4 3 4l1-2-2-4a5 5 0 011-6l2 4c3 0 0-4-1-5l1-4 2 3v-7c1 2 2 2 2 1v-5h17l-1 5c0 1 1 1 2-1 2 1 2 3 1 3-2 2-2 4-1 4l2-3s2 2 1 4c0 1-3 5 0 5l1-4a5 5 0 011 6l-2 4c0 2 1 2 2 2s2-1 2-4c1 1 2 5 1 6l-4 6c0 2 2 2 3-2l1 5c0 2-3 2-3 5v5zm7-46l-1-3h16v3zm1-3l-1-2h14v2zm2-3v-2h9v2zm33 110c-2 0-5-2-5-5v-24l3-3h-53l3 3v24c0 3-2 5-4 5z"/>
+    <path stroke-linejoin="bevel" d="M178 648h4v16h-4zm31 0h3v16h-3z"/>
+    <path d="M168 609v28h54v-28a4 4 0 00-3 3v12h-48v-12l-3-3z"/>
+    <path d="M215 670c-2-1-6-3-6-5v-28l4-3h-36l4 3v27c0 3-3 5-4 6z"/>
+    <path d="M219 634v-19h-4v-2h-39v2h-5v19zm-12 36c-2-1-4-3-4-5v-24l1-2h-18l2 2v23c0 3-3 5-4 5z"/>
+    <path d="M191 639h9v31h-9z"/>
+    <path stroke-linejoin="bevel" d="M204 633c0-2 6-3 9-4h-36c3 1 9 2 9 4l1 3 15 1z"/>
+    <path d="M211 611c0-5 1-6 2-6v15c-4 1-6 6-6 6h-23s-3-5-7-6v-15c2 0 2 2 2 6zm2-2c0-5 5-6 5-6v5c-2 0-3 2-3 4 0 3 2 3 2 3v14h-4zM177 609c0-5-5-6-5-6v5c2 0 3 2 3 4l-1 3v14h3z"/>
+    <g fill="none">
+      <path d="M187 571h17m-19 5h21m-23 7h25m-27 7h29m-30 9h30M171 629h48m-33 0h18v7h-18z"/>
+    </g>
+    <path d="M184 614c3 4 3 10 3 14h17c0-4 0-10 3-14zm10-41l-3-1v-4l2 2 2-3c1 1 2 1 2 3l2-2v4l-2 1z"/>
+    <path d="M194 579l-4-3v-3l3 2 2-4c2 1 3 2 3 4l3-2v3l-4 3z"/>
+    <path d="M193 588l-4-4v-5c1 0 3 1 3 3l3-7c2 2 3 4 3 7 1-2 2-3 4-3v5l-5 4zm9 5l-4 6h-5l-4-6zm-16 10c2 1 3 3 3 7h12c0-4 1-6 3-7z"/>
+    <path stroke-linejoin="bevel" d="M204 593v-6a5 5 0 00-4 4c0-2-2-7-5-9-3 3-5 7-5 9 0-2-2-3-4-4v6z"/>
+    <path stroke-linejoin="bevel" d="M205 603v-6l-4 3c0-2-3-6-6-8-3 2-6 6-5 8l-5-3v6z"/>
+    <path stroke-linejoin="bevel" d="M207 614v-6a10 10 0 00-5 3c0-3-4-9-7-10-3 2-7 7-7 10a10 10 0 00-5-3v6z"/>
+    <path stroke-linejoin="bevel" d="M206 629v-7l-4 5c0-7-4-14-7-16-3 2-7 9-7 16-1-2-1-4-4-5v7z"/>
+    <path d="M204 639v-7l-3 3c0-4-3-8-6-10-3 2-6 6-6 10l-3-3v7z"/>
+    <g id="a">
+      <path d="M99 664v-20c-1-3-3-5-5-6v-18l4 2 4 19v23z"/>
+      <path d="M99 664v-20c-1-3-3-5-5-6v-19c3 0 4 3 4 3l4 19v23z"/>
+      <path d="M96 670c2-1 4-3 4-5v-26l-1-2h44l-2 2v25a6 6 0 004 6z"/>
+      <path d="M136 670c-2-1-4-3-4-5v-25l3-3h-29l3 3v25c0 2-2 4-4 5z"/>
+      <path d="M132 670c-2-1-5-3-5-5v-22l3-4h-19l2 4v22c0 2-2 4-4 5z"/>
+      <path d="M116 639h9v31h-9z"/>
+      <path stroke-linejoin="bevel" d="M104 648h3v16h-3zm31 0h3v16h-4zm-34-28h4v17h-4zm0-3h4v3h-4zm35 7h6v13h-6z"/>
+      <path d="M105 637v-29c1 0 1 4 4 4 2 0 2-2 1-3-1-2-2-3-1-7 1 3 3 4 3 2-1-3-3-3-1-7 0 3 2 3 2 1-1-2-2-3 0-6 1 3 2 3 2 1 0-4 0-7 4-8 0 0 0-3 2-3l2 3c4 1 4 5 4 8 0 2 1 2 2-1 1 3 0 4-1 6 0 2 2 2 3-1 1 4-1 4-2 7 0 2 2 1 3-2v7 3c3 0 3-4 4-4v29zm-7-22v22h3v-22h-3z"/>
+      <path d="M98 629c3 2 6 4 7 8h-7zm43-7v15h2v-15h-2z"/>
+      <path d="M143 629c-3 2-6 3-7 8h7zm-20-34l2-1v-2l-2 1a5 5 0 00-2-3 5 5 0 00-3 3l-1-1v2l1 1z"/>
+      <path d="M124 600l1-2v-2l-2 1a5 5 0 00-2-3 5 5 0 00-3 3l-1-1v4z"/>
+      <path d="M124 607l3-4v-3l-3 2c0-2-2-3-3-4-2 1-4 2-4 4l-3-2v4l3 3z"/>
+      <path d="M125 613l3-4v-3l-3 1-4-5-5 5-3-2v4a15 15 0 003 4z"/>
+      <path d="M126 625l5-6v-6c-2 0-4 2-5 4-1-5-3-8-5-10-3 2-5 5-6 10l-4-4v6c0 2 4 6 4 6z"/>
+      <path d="M126 632l5-5v-5c-2 0-4 1-5 3a14 14 0 00-5-9c-3 2-5 5-6 9l-4-3v5l4 5z"/>
+      <path d="M128 637c-1-5-2-9-8-12-5 3-6 7-7 12z"/>
+      <path d="M130 639v-7l-5 4c-1-4-3-5-5-7l-4 7-5-4v7z"/>
+    </g>
+    <use xlink:href="#a" width="100%" height="100%" transform="matrix(-1 0 0 1 391 0)"/>
+    <path d="M73 694h245v13H73zm-7 13h259v12H66zm20-32h219v9H86z"/>
+    <path d="M79 684h233v10H79zm10-15h212v7H89z"/>
+    <path d="M112 669h16v50h-16z"/>
+    <path d="M116 669h9v50h-9zm71 0h16v50h-16z"/>
+    <path d="M191 669h9v50h-9zm71 0h16v50h-16z"/>
+    <path d="M266 669h9v50h-9z"/>
+    <path fill="none" d="M99 664h193m-176 49h9m-9-6h9m-9-6h9m-9-7h9m-9-6h9m-9-6h9m-9-6h9m66 37h8m-8-6h8m-8-6h8m-8-7h8m-8-6h8m-8-6h8m-8-6h8m67 37h9m-9-6h9m-9-6h9m-9-7h9m-9-6h9m-9-6h9m-9-6h9"/>
+  </g>
+</svg>

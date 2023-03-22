@@ -1,0 +1,8 @@
+<svg xmlns="http://www.w3.org/2000/svg" id="flag-icons-tr" viewBox="0 0 640 480">
+  <g fill-rule="evenodd">
+    <path fill="#e30a17" d="M0 0h640v480H0z"/>
+    <path fill="#fff" d="M407 248c0 66-55 119-122 119s-122-53-122-120 55-119 122-119 122 53 122 119z"/>
+    <path fill="#e30a17" d="M413 248a97 97 0 01-195 0c0-54 44-96 98-96s97 42 97 95z"/>
+    <path fill="#fff" d="M431 192l-1 44-42 11 41 15-1 40 27-32 40 14-23-34 28-34-43 12-26-37z"/>
+  </g>
+</svg>
