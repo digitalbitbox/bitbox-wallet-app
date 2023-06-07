@@ -63,7 +63,11 @@ export const View = ({
   const containerClasses = `${
     style[fullscreen ? 'fullscreen' : 'fill']
   } ${
-    verticallyCentered ? style.verticallyCentered : ''
+    verticallyCentered ?
+      withBottomBar
+        ? style.verticallyCenteredWithBottomBar
+        : style.verticallyCentered
+      : ''
   } ${
     dialog ? style.dialog : ''
   }`;
@@ -146,7 +150,7 @@ export const ViewContent = ({
 
 type THeaderProps = {
     small?: boolean;
-    title: ReactNode;
+    title?: ReactNode;
     withAppLogo?: boolean;
 }
 
@@ -169,7 +173,9 @@ export const ViewHeader: FunctionComponent<THeaderProps> = ({
       {withAppLogo && (
         isDarkMode ? <AppLogoInverted /> : <AppLogo />
       )}
-      <h1 className={style.title}>{title}</h1>
+      {title && (
+        <h1 className={style.title}>{title}</h1>
+      )}
       {children}
     </header>
   );
