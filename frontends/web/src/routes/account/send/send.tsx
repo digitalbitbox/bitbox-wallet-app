@@ -20,34 +20,34 @@ import { BrowserQRCodeReader } from '@zxing/library';
 import * as accountApi from '../../../api/account';
 import { syncdone } from '../../../api/accountsync';
 import { BtcUnit, parseExternalBtcAmount } from '../../../api/coins';
+import { View, ViewContent } from '../../../components/view/view';
 import { TDevices } from '../../../api/devices';
-import { getDeviceInfo } from '../../../api/bitbox01';
-import { Checked, Cancel } from '../../../components/icon/icon';
-import qrcodeIconDark from '../../../assets/icons/qrcode-dark.png';
-import qrcodeIconLight from '../../../assets/icons/qrcode-light.png';
 import { alertUser } from '../../../components/alert/Alert';
 import A from '../../../components/anchor/anchor';
 import { Balance } from '../../../components/balance/balance';
-import { Dialog } from '../../../components/dialog/dialog';
-import { Button, ButtonLink, Checkbox, Input } from '../../../components/forms';
-import { Entry } from '../../../components/guide/entry';
-import { Guide } from '../../../components/guide/guide';
-import { Column, ColumnButtons, Grid, Header } from '../../../components/layout';
+import { Column, ColumnButtons, Grid, GuideWrapper, GuidedContent, Header, Main } from '../../../components/layout';
 import { store as fiat } from '../../../components/rates/rates';
-import { Spinner } from '../../../components/spinner/Spinner';
 import { Status } from '../../../components/status/status';
-import { WaitDialog } from '../../../components/wait-dialog/wait-dialog';
 import { translate, TranslateProps } from '../../../decorators/translate';
 import { debug } from '../../../utils/env';
 import { apiGet, apiPost } from '../../../utils/request';
-import { Amount } from '../../../components/amount/amount';
-import { apiWebsocket } from '../../../utils/websocket';
-import { isBitcoinBased, customFeeUnit, isBitcoinOnly, findAccount } from '../utils';
+import { TPayload, apiWebsocket } from '../../../utils/websocket';
+import { isBitcoinBased, findAccount } from '../utils';
 import { FeeTargets } from './feetargets';
-import style from './send.module.css';
 import { TSelectedUTXOs, UTXOs } from './utxos';
 import { route } from '../../../utils/route';
 import { UnsubscribeList, unsubscribe } from '../../../utils/subscriptions';
+import { ConfirmingWaitDialog } from './components/dialogs/confirm-wait-dialog';
+import { MessageWaitDialog } from './components/dialogs/message-wait-dialog';
+import style from './send.module.css';
+import DialogScanQR from './components/dialogs/scan-qr-dialog';
+import { ReceiverAddressInput } from './components/inputs/receiver-address-input';
+import { CoinInput } from './components/inputs/coin-input';
+import { FiatInput } from './components/inputs/fiat-input';
+import { NoteInput } from './components/inputs/note-input';
+import { ButtonsGroup } from './components/inputs/buttons-group';
+import { convertFromFiatService, convertToFiatService, getPairingStatusBB01, getSelfSendAddress, getTransactionStatusUpdate, txProposalErrorHandling } from './services';
+import SendGuide from './send-guide';
 
 interface SendProps {
     accounts: accountApi.IAccount[];
@@ -141,21 +141,16 @@ class Send extends Component<Props, State> {
   };
 
   public componentDidMount() {
+
+    const updateBalance = (code: string) => accountApi.getBalance(code)
+      .then(balance => this.setState({ balance }))
+      .catch(console.error);
+
     if (this.props.code) {
-      accountApi.getBalance(this.props.code)
-        .then(balance => this.setState({ balance }))
-        .catch(console.error);
+      updateBalance(this.props.code);
     }
     if (this.props.deviceIDs.length > 0 && this.props.devices[this.props.deviceIDs[0]] === 'bitbox') {
-      apiGet('devices/' + this.props.deviceIDs[0] + '/has-mobile-channel').then((mobileChannel: boolean) => {
-        getDeviceInfo(this.props.deviceIDs[0])
-          .then(({ pairing }) => {
-            const account = this.getAccount();
-            const paired = mobileChannel && pairing;
-            const noMobileChannelError = pairing && !mobileChannel && account && isBitcoinBased(account.coinCode);
-            this.setState(prevState => ({ ...prevState, paired, noMobileChannelError }));
-          });
-      });
+      apiGet('devices/' + this.props.deviceIDs[0] + '/has-mobile-channel').then(this.updatePairingStatus);
     }
     apiGet('config').then(config => {
       this.setState({ btcUnit: config.backend.btcUnit });
@@ -163,30 +158,9 @@ class Send extends Component<Props, State> {
         this.setState({ coinControl: !!(config.frontend || {}).coinControl });
       }
     });
-
     this.unsubscribeList = [
-      apiWebsocket((payload) => {
-        if ('type' in payload) {
-          const { data, meta, type } = payload;
-          switch (type) {
-          case 'device':
-            switch (data) {
-            case 'signProgress':
-              this.setState({ signProgress: meta, signConfirm: false });
-              break;
-            case 'signConfirm':
-              this.setState({ signConfirm: true });
-              break;
-            }
-            break;
-          }
-        }
-      }),
-      syncdone(this.props.code, (code) => {
-        accountApi.getBalance(code)
-          .then(balance => this.setState({ balance }))
-          .catch(console.error);
-      }),
+      apiWebsocket(this.handleWebsocketPayload),
+      syncdone(this.props.code, updateBalance),
     ];
   }
 
@@ -213,6 +187,21 @@ class Send extends Component<Props, State> {
       this.qrCodeReader.reset();
     }
   }
+
+  private updatePairingStatus = async (mobileChannel: boolean) => {
+    try {
+      const account = this.getAccount();
+      const { paired, noMobileChannelError } = await getPairingStatusBB01(this.props.deviceIDs[0], mobileChannel, account);
+      this.setState({ noMobileChannelError, paired });
+    } catch (error) {
+      console.error(error);
+    }
+  };
+
+  private handleWebsocketPayload = (payload: TPayload) => {
+    const statusUpdate = getTransactionStatusUpdate(payload);
+    this.setState({ ...statusUpdate });
+  };
 
   private registerEvents = () => {
     document.addEventListener('keydown', this.handleKeyDown);
@@ -352,33 +341,10 @@ class Send extends Component<Props, State> {
       if (updateFiat) {
         this.convertToFiat(result.amount.amount);
       }
-    } else {
-      const errorCode = result.errorCode;
-      switch (errorCode) {
-      case 'invalidAddress':
-        this.setState({ addressError: this.props.t('send.error.invalidAddress') });
-        break;
-      case 'invalidAmount':
-      case 'insufficientFunds':
-        this.setState({
-          amountError: this.props.t(`send.error.${errorCode}`),
-          proposedFee: undefined,
-        });
-        break;
-      case 'feeTooLow':
-        this.setState({ feeError: this.props.t('send.error.feeTooLow') });
-        break;
-      case 'feesNotAvailable':
-        this.setState({ feeError: this.props.t('send.error.feesNotAvailable') });
-        break;
-      default:
-        this.setState({ proposedFee: undefined });
-        if (errorCode) {
-          this.unregisterEvents();
-          alertUser(errorCode, { callback: this.registerEvents });
-        }
-      }
-      this.setState({ isUpdatingProposal: false });
+    } else if (result.errorCode) {
+      const { errorHandling, transactionDetails } =
+        txProposalErrorHandling(result.errorCode, this.registerEvents, this.unregisterEvents);
+      this.setState({ ...errorHandling, ...transactionDetails, isUpdatingProposal: false });
     }
   };
 
@@ -409,48 +375,29 @@ class Send extends Component<Props, State> {
     this.convertFromFiat(value);
   };
 
-  private convertToFiat = (value?: string | boolean) => {
-    if (value) {
-      const coinCode = this.getAccount()!.coinCode;
-      apiGet(`coins/convert-to-plain-fiat?from=${coinCode}&to=${this.state.fiatUnit}&amount=${value}`)
-        .then(data => {
-          if (data.success) {
-            this.setState({ fiatAmount: data.fiatAmount });
-          } else {
-            this.setState({ amountError: this.props.t('send.error.invalidAmount') });
-          }
-        });
-    } else {
-      this.setState({ fiatAmount: '' });
-    }
+  private convertToFiat = async (value?: string | boolean) => {
+    const coinCode = this.getAccount()!.coinCode;
+    const { fiatAmount, amountError } = await convertToFiatService(coinCode, this.state.fiatUnit, value);
+    this.setState({ fiatAmount: fiatAmount || '', amountError });
   };
 
-  private convertFromFiat = (value: string) => {
-    if (value) {
-      const coinCode = this.getAccount()!.coinCode;
-      apiGet(`coins/convert-from-fiat?from=${this.state.fiatUnit}&to=${coinCode}&amount=${value}`)
-        .then(data => {
-          if (data.success) {
-            this.setState({ amount: data.amount });
-            this.validateAndDisplayFee(false);
-          } else {
-            this.setState({ amountError: this.props.t('send.error.invalidAmount') });
-          }
-        });
-    } else {
-      this.setState({ amount: '' });
-    }
+  private convertFromFiat = async (value: string) => {
+    const coinCode = this.getAccount()!.coinCode;
+    const { amount, amountError } = await convertFromFiatService(coinCode, this.state.fiatUnit, value);
+    this.setState({ amount: amount || '', amountError });
+    this.validateAndDisplayFee(false);
   };
 
-  private sendToSelf = (event: React.SyntheticEvent) => {
-    accountApi.getReceiveAddressList(this.getAccount()!.code)()
-      .then(receiveAddresses => {
-        if (receiveAddresses && receiveAddresses.length > 0 && receiveAddresses[0].addresses.length > 1) {
-          this.setState({ recipientAddress: receiveAddresses[0].addresses[0].address });
-          this.handleFormChange(event);
-        }
-      })
-      .catch(console.error);
+  private sendToSelf = async (event: React.SyntheticEvent) => {
+    try {
+      const recipientAddress = await getSelfSendAddress(this.getAccount()!.code);
+      if (recipientAddress) {
+        this.setState({ recipientAddress });
+        this.handleFormChange(event);
+      }
+    } catch (error) {
+      console.error(error);
+    }
   };
 
   private feeTargetChange = (feeTarget: accountApi.FeeTargetCode) => {
@@ -604,304 +551,149 @@ class Send extends Component<Props, State> {
       videoLoading,
       note,
     } = this.state;
+
+    const waitDialogTransactionDetails = {
+      proposedFee,
+      proposedAmount,
+      proposedTotal,
+      customFee,
+      feeTarget,
+      recipientAddress,
+      fiatUnit,
+    };
+
+    const waitDialogTransactionStatus = {
+      isConfirming,
+      signProgress,
+      signConfirm
+    };
+
     const account = this.getAccount();
     if (!account) {
       return null;
     }
-    const confirmPrequel = (signProgress && signProgress.steps > 1) ? (
-      <span>
-        {
-          t('send.signprogress.description', {
-            steps: signProgress.steps.toString(),
-          })
-        }
-        <br />
-        {t('send.signprogress.label')}: {signProgress.step}/{signProgress.steps}
-      </span>
-    ) : undefined;
+
     const baseCurrencyUnit: accountApi.ConversionUnit = fiatUnit === 'BTC' && btcUnit === 'sat' ? 'sat' : fiatUnit;
     return (
-      <div className="contentWithGuide">
-        <div className="container">
-          <Status type="warning" hidden={paired !== false}>
-            {t('warning.sendPairing')}
-          </Status>
-          <div className="innerContainer scrollableContainer">
-            <Header title={<h2>{t('send.title', { accountName: account.coinName })}</h2>} />
-            <div className="content padded">
-              <div>
-                <label className="labelXLarge">{t('send.availableBalance')}</label>
-              </div>
-              <Balance balance={balance} noRotateFiat/>
-              { coinControl && (
-                <UTXOs
-                  accountCode={account.code}
-                  active={activeCoinControl}
-                  explorerURL={account.blockExplorerTxPrefix}
-                  onClose={this.deactivateCoinControl}
-                  onChange={this.onSelectedUTXOsChange} />
-              ) }
-              <div className={`flex flex-row flex-between ${style.container}`}>
-                <label className="labelXLarge">{t('send.transactionDetails')}</label>
+      <GuideWrapper>
+        <GuidedContent>
+          <Main>
+            <Status type="warning" hidden={paired !== false}>
+              {t('warning.sendPairing')}
+            </Status>
+            <Header
+              title={<h2>{t('send.title', { accountName: account.coinName })}</h2>}
+            />
+            <View>
+              <ViewContent>
+                <div>
+                  <label className="labelXLarge">{t('send.availableBalance')}</label>
+                </div>
+                <Balance balance={balance} noRotateFiat/>
                 { coinControl && (
-                  <A href="#" onClick={this.toggleCoinControl} className="labelLarge labelLink">{t('send.toggleCoinControl')}</A>
-                )}
-              </div>
-              <Grid col="1">
-                <Column>
-                  <Input
-                    label={t('send.address.label')}
-                    placeholder={t('send.address.placeholder')}
-                    id="recipientAddress"
-                    error={addressError}
-                    onInput={this.handleFormChange}
-                    value={recipientAddress}
-                    className={hasCamera ? style.inputWithIcon : ''}
-                    labelSection={debug ? (
-                      <span id="sendToSelf" className={style.action} onClick={this.sendToSelf}>
-                        Send to self
-                      </span>
-                    ) : undefined}
-                    autoFocus>
-                    { hasCamera && (
-                      <button onClick={this.toggleScanQR} className={style.qrButton}>
-                        <img className="show-in-lightmode" src={qrcodeIconDark} />
-                        <img className="show-in-darkmode" src={qrcodeIconLight} />
-                      </button>
-                    )}
-                  </Input>
-                </Column>
-              </Grid>
-              <Grid>
-                <Column>
-                  <Input
-                    type="number"
-                    step="any"
-                    min="0"
-                    label={balance ? balance.available.unit : t('send.amount.label')}
-                    id="amount"
-                    onInput={this.handleFormChange}
-                    disabled={sendAll}
-                    error={amountError}
-                    value={sendAll ? (proposedAmount ? proposedAmount.amount : '') : amount}
-                    placeholder={t('send.amount.placeholder')}
-                    labelSection={
-                      <Checkbox
-                        label={t(this.hasSelectedUTXOs() ? 'send.maximumSelectedCoins' : 'send.maximum')}
-                        id="sendAll"
-                        onChange={this.handleFormChange}
-                        checked={sendAll}
-                        className={style.maxAmount} />
-                    } />
-                </Column>
-                <Column>
-                  <Input
-                    type="number"
-                    step="any"
-                    min="0"
-                    label={baseCurrencyUnit}
-                    id="fiatAmount"
-                    onInput={this.handleFiatInput}
-                    disabled={sendAll}
-                    error={amountError}
-                    value={fiatAmount}
-                    placeholder={t('send.amount.placeholder')} />
-                </Column>
-              </Grid>
-              <Grid>
-                <Column>
-                  <FeeTargets
+                  <UTXOs
                     accountCode={account.code}
-                    coinCode={account.coinCode}
-                    disabled={!amount && !sendAll}
-                    fiatUnit={baseCurrencyUnit}
-                    proposedFee={proposedFee}
-                    customFee={customFee}
-                    showCalculatingFeeLabel={isUpdatingProposal}
-                    onFeeTargetChange={this.feeTargetChange}
-                    onCustomFee={customFee => this.setState({ customFee }, this.validateAndDisplayFee)}
-                    error={feeError} />
-                </Column>
-                <Column>
-                  <Input
-                    label={t('note.title')}
-                    labelSection={
-                      <span className={style.labelDescription}>
-                        {t('note.input.description')}
-                      </span>
-                    }
-                    id="note"
-                    onInput={this.handleNoteInput}
-                    value={note}
-                    placeholder={t('note.input.placeholder')} />
-                  <ColumnButtons
-                    className="m-top-default m-bottom-xlarge"
-                    inline>
-                    <Button
-                      primary
-                      onClick={this.send}
-                      disabled={this.sendDisabled() || !valid || isUpdatingProposal}>
-                      {t('send.button')}
-                    </Button>
-                    <ButtonLink
-                      transparent
-                      to={`/account/${code}`}>
-                      {t('button.back')}
-                    </ButtonLink>
-                  </ColumnButtons>
-                </Column>
-              </Grid>
-            </div>
-          </div>
-          {
-            isConfirming && (
-              <WaitDialog
-                title={t('send.confirm.title')}
-                prequel={confirmPrequel}
+                    active={activeCoinControl}
+                    explorerURL={account.blockExplorerTxPrefix}
+                    onClose={this.deactivateCoinControl}
+                    onChange={this.onSelectedUTXOsChange} />
+                ) }
+                <div className={`flex flex-row flex-between ${style.container}`}>
+                  <label className="labelXLarge">{t('send.transactionDetails')}</label>
+                  { coinControl && (
+                    <A href="#" onClick={this.toggleCoinControl} className="labelLarge labelLink">{t('send.toggleCoinControl')}</A>
+                  )}
+                </div>
+                <Grid col="1">
+                  <Column>
+                    <ReceiverAddressInput
+                      onClickScanQRButton={this.toggleScanQR}
+                      hasCamera={hasCamera}
+                      debug={debug}
+                      onInputChange={this.handleFormChange}
+                      onClickSendToSelfButton={this.sendToSelf}
+                      addressError={addressError}
+                      recipientAddress={recipientAddress}
+                    />
+                  </Column>
+                </Grid>
+                <Grid>
+                  <Column>
+                    <CoinInput
+                      balance={balance}
+                      onInputChange={this.handleFormChange}
+                      sendAll={sendAll}
+                      amountError={amountError}
+                      proposedAmount={proposedAmount}
+                      amount={amount}
+                      hasSelectedUTXOs={this.hasSelectedUTXOs()}
+                    />
+                  </Column>
+                  <Column>
+                    <FiatInput
+                      onFiatChange={this.handleFiatInput}
+                      disabled={sendAll}
+                      error={amountError}
+                      fiatAmount={fiatAmount}
+                      label={baseCurrencyUnit}
+                    />
+                  </Column>
+                </Grid>
+                <Grid>
+                  <Column>
+                    <FeeTargets
+                      accountCode={account.code}
+                      coinCode={account.coinCode}
+                      disabled={!amount && !sendAll}
+                      fiatUnit={baseCurrencyUnit}
+                      proposedFee={proposedFee}
+                      customFee={customFee}
+                      showCalculatingFeeLabel={isUpdatingProposal}
+                      onFeeTargetChange={this.feeTargetChange}
+                      onCustomFee={customFee => this.setState({ customFee }, this.validateAndDisplayFee)}
+                      error={feeError} />
+                  </Column>
+                  <Column>
+                    <NoteInput
+                      note={note}
+                      onNoteChange={this.handleNoteInput}
+                    />
+                    <ColumnButtons
+                      className="m-top-default m-bottom-xlarge"
+                      inline>
+                      <ButtonsGroup
+                        onSendButtonClick={this.send}
+                        accountCode={code}
+                        isSendButtonDisabled={this.sendDisabled() || !valid || isUpdatingProposal}
+                      />
+                    </ColumnButtons>
+                  </Column>
+                </Grid>
+              </ViewContent>
+              <ConfirmingWaitDialog
                 paired={paired}
-                touchConfirm={signConfirm}
-                includeDefault>
-                <div className={style.confirmItem}>
-                  <label>{t('send.address.label')}</label>
-                  <p>{recipientAddress || 'N/A'}</p>
-                </div>
-                <div className={style.confirmItem}>
-                  <label>{t('send.amount.label')}</label>
-                  <p>
-                    <span key="proposedAmount">
-                      {(proposedAmount &&
-                        <Amount amount={proposedAmount.amount} unit={proposedAmount.unit}/>) || 'N/A'}
-                      {' '}
-                      <small>{(proposedAmount && proposedAmount.unit) || 'N/A'}</small>
-                    </span>
-                    {
-                      proposedAmount && proposedAmount.conversions && (
-                        <span>
-                          <span className="text-gray"> / </span>
-                          <Amount amount={proposedAmount.conversions[fiatUnit]} unit={baseCurrencyUnit}/>
-                          {' '}<small>{baseCurrencyUnit}</small>
-                        </span>)
-                    }
-                  </p>
-                </div>
-                {note ? (
-                  <div className={style.confirmItem}>
-                    <label>{t('note.title')}</label>
-                    <p>{note}</p>
-                  </div>
-                ) : null}
-                <div className={style.confirmItem}>
-                  <label>{t('send.fee.label')}{feeTarget ? ' (' + t(`send.feeTarget.label.${feeTarget}`) + ')' : ''}</label>
-                  <p>
-                    <span key="amount">
-                      {(proposedFee &&
-                        <Amount amount={proposedFee.amount} unit={proposedFee.unit}/>) || 'N/A'}
-                      {' '}
-                      <small>{(proposedFee && proposedFee.unit) || 'N/A'}</small>
-                    </span>
-                    {proposedFee && proposedFee.conversions && (
-                      <span key="conversation">
-                        <span className="text-gray"> / </span>
-                        <Amount amount={proposedFee.conversions[fiatUnit]} unit={baseCurrencyUnit}/>
-                        {' '}<small>{baseCurrencyUnit}</small>
-                      </span>
-                    )}
-                    {customFee ? (
-                      <span key="customFee">
-                        <br/>
-                        <small>({customFee} {customFeeUnit(account.coinCode)})</small>
-                      </span>
-                    ) : null}
-                  </p>
-                </div>
-                {
-                  this.hasSelectedUTXOs() && (
-                    <div className={[style.confirmItem].join(' ')}>
-                      <label>{t('send.confirm.selected-coins')}</label>
-                      {
-                        Object.keys(this.selectedUTXOs).map((uxto, i) => (
-                          <p className={style.confirmationValue} key={`selectedCoin-${i}`}>{uxto}</p>
-                        ))
-                      }
-                    </div>
-                  )
-                }
-                <div className={[style.confirmItem, style.total].join(' ')}>
-                  <label>{t('send.confirm.total')}</label>
-                  <p>
-                    <span>
-                      <strong>
-                        {(proposedTotal &&
-                        <Amount amount={proposedTotal.amount} unit={proposedTotal.unit}/>) || 'N/A'}
-                      </strong>
-                      {' '}
-                      <small>{(proposedTotal && proposedTotal.unit) || 'N/A'}</small>
-                    </span>
-                    {(proposedTotal && proposedTotal.conversions) && (
-                      <span>
-                        <span className="text-gray"> / </span>
-                        <strong><Amount amount={proposedTotal.conversions[fiatUnit]} unit={baseCurrencyUnit}/></strong>
-                        {' '}<small>{baseCurrencyUnit}</small>
-                      </span>
-                    )}
-                  </p>
-                </div>
-              </WaitDialog>
-            )
-          }
-          {
-            isSent && (
-              <WaitDialog>
-                <div className="flex flex-row flex-center flex-items-center">
-                  <Checked style={{ height: 18, marginRight: '1rem' }} />{t('send.success')}
-                </div>
-              </WaitDialog>
-            )
-          }
-          {
-            isAborted && (
-              <WaitDialog>
-                <div className="flex flex-row flex-center flex-items-center">
-                  <Cancel alt="Abort" style={{ height: 18, marginRight: '1rem' }} />{t('send.abort')}
-                </div>
-              </WaitDialog>
-            )
-          }
-          <Dialog
-            open={activeScanQR}
-            title={t('send.scanQR')}
-            onClose={this.toggleScanQR}>
-            {videoLoading && <Spinner guideExists />}
-            <video
-              id="video"
-              width={400}
-              height={300 /* fix height to avoid ugly resize effect after open */}
-              className={style.qrVideo}
-              onLoadedData={this.handleVideoLoad} />
-            <div className={['buttons', 'flex', 'flex-row', 'flex-between'].join(' ')}>
-              <Button
-                secondary
-                onClick={this.toggleScanQR}>
-                {t('button.back')}
-              </Button>
-            </div>
-          </Dialog>
-        </div>
-        <Guide>
-          <Entry key="guide.send.whyFee" entry={t('guide.send.whyFee')} />
-          { isBitcoinBased(account.coinCode) && (
-            <Entry key="guide.send.priority" entry={t('guide.send.priority')} />
-          )}
-          { isBitcoinBased(account.coinCode) && (
-            <Entry key="guide.send.fee" entry={t('guide.send.fee')} />
-          )}
-          { isBitcoinOnly(account.coinCode) && (
-            <Entry key="guide.send.change" entry={t('guide.send.change')} />
-          )}
-          <Entry key="guide.send.revert" entry={t('guide.send.revert')} />
-          <Entry key="guide.send.plugout" entry={t('guide.send.plugout')} />
-        </Guide>
-      </div>
+                baseCurrencyUnit={baseCurrencyUnit}
+                note={note}
+                hasSelectedUTXOs={this.hasSelectedUTXOs()}
+                selectedUTXOs={Object.keys(this.selectedUTXOs)}
+                coinCode={account.coinCode}
+                transactionDetails={waitDialogTransactionDetails}
+                transactionStatus={waitDialogTransactionStatus}
+              />
+              <MessageWaitDialog isShown={isSent} messageType={'sent'} />
+              <MessageWaitDialog isShown={isAborted} messageType={'abort'} />
+              <DialogScanQR
+                activeScanQR={activeScanQR}
+                onLoadedVideo={this.handleVideoLoad}
+                toggleScanQR={this.toggleScanQR}
+                videoLoading={videoLoading}
+              />
+            </View>
+          </Main>
+        </GuidedContent>
+        <SendGuide coinCode={account.coinCode} />
+      </GuideWrapper>
+
     );
   }
 }
