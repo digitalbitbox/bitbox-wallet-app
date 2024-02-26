@@ -122,9 +122,9 @@ export const SelectExplorerSettings = ({ accounts }: TSelectExplorerSettingsProp
         </div>
       </div>
       <Guide>
-        <Entry key="guide.settingsBlockExplorer.what" entry={t('guide.settingsBlockExplorer.what')} />
-        <Entry key="guide.settingsBlockExplorer.why" entry={t('guide.settingsBlockExplorer.why')} />
-        <Entry key="guide.settingsBlockExplorer.options" entry={t('guide.settingsBlockExplorer.options')} />
+        <Entry key="guide.settingsBlockExplorer.what" entry={t('guide.settingsBlockExplorer.what', { returnObjects: true })} />
+        <Entry key="guide.settingsBlockExplorer.why" entry={t('guide.settingsBlockExplorer.why', { returnObjects: true })} />
+        <Entry key="guide.settingsBlockExplorer.options" entry={t('guide.settingsBlockExplorer.options', { returnObjects: true })} />
         <Entry key="guide.settings-electrum.instructions" entry={{
           link: {
             text: t('guide.settingsBlockExplorer.instructions.link.text'),
