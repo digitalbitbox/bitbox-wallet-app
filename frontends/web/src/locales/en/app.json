@@ -1083,6 +1083,27 @@
         "title": "Which servers does this app talk to?"
       }
     },
+    "settingsBlockExplorer": {
+      "instructions": {
+        "link": {
+          "text": "Guide on how to use a block explorer"
+        },
+        "text": "For a full tutorial, please visit our guide:",
+        "title": "How do I use a block explorer?"
+      },
+      "options": {
+        "text": "The BitBoxApp features a protection mechanism designed to prevent the opening of arbitrary links. This serves as a security measure against malicious links.",
+        "title": "Why can't I enter my own block explorer URL?"
+      },
+      "what": {
+        "text": "A block explorer lets you dive into the details of the blockchain, helping you understand what's happening. You can choose from various block explorers to find one that suits you.",
+        "title": "What is this?"
+      },
+      "why": {
+        "text": "You can use your preferred block explorer to check out your transaction in more detail or to find additional information about the blockchain.",
+        "title": "Why should I use a block explorer?"
+      }
+    },
     "title": "Guide",
     "toggle": {
       "close": "Close guide",
@@ -1609,6 +1630,10 @@
         "description": "You can connect to your own Electrum full node.",
         "title": "Connect your own full node"
       },
+      "explorer": {
+        "description": "Change to your preferred block explorer.",
+        "title": "Choose block explorer"
+      },
       "fee": "Enable custom fees",
       "setProxyAddress": "Set proxy address",
       "title": "Expert settings",
@@ -1625,6 +1650,7 @@
       "version": "App Version"
     },
     "restart": "Please re-start the BitBoxApp for the changes to take effect.",
+    "save": "Save",
     "services": {
       "title": "Services"
     },
