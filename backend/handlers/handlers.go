@@ -103,6 +103,7 @@ type Backend interface {
 	AOPPCancel()
 	AOPPApprove()
 	AOPPChooseAccount(code accountsTypes.Code)
+	AvailableExplorers() config.AvailableBlockExplorers
 	GetAccountFromCode(code accountsTypes.Code) (accounts.Interface, error)
 	HTTPClient() *http.Client
 	LookupInsuredAccounts(accountCode accountsTypes.Code) ([]bitsurance.AccountDetails, error)
@@ -250,6 +251,7 @@ func NewHandlers(
 	getAPIRouterNoError(apiRouter)("/set-watchonly", handlers.postSetWatchonly).Methods("POST")
 	getAPIRouterNoError(apiRouter)("/on-auth-setting-changed", handlers.postOnAuthSettingChanged).Methods("POST")
 	getAPIRouterNoError(apiRouter)("/accounts/eth-account-code", handlers.lookupEthAccountCode).Methods("POST")
+	getAPIRouterNoError(apiRouter)("/available-explorers", handlers.getAvailableExplorers).Methods("GET")
 
 	devicesRouter := getAPIRouterNoError(apiRouter.PathPrefix("/devices").Subrouter())
 	devicesRouter("/registered", handlers.getDevicesRegistered).Methods("GET")
@@ -1451,4 +1453,11 @@ func (handlers *Handlers) postOnAuthSettingChanged(r *http.Request) interface{} 
 	handlers.backend.Environment().OnAuthSettingChanged(
 		handlers.backend.Config().AppConfig().Backend.Authentication)
 	return nil
+}
+
+// getAvailableExplorers returns a struct containing arrays with block explorers for each
+// individual coin code.
+func (handlers *Handlers) getAvailableExplorers(*http.Request) interface{} {
+	// TODO: maybe filter out testing coins if not testing and real if testing
+	return config.AvailableExplorers
 }
