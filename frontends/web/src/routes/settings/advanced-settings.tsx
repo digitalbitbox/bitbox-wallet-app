@@ -31,6 +31,7 @@ import { MobileHeader } from './components/mobile-header';
 import { Guide } from '../../components/guide/guide';
 import { Entry } from '../../components/guide/entry';
 import { EnableAuthSetting } from './components/advanced-settings/enable-auth-setting';
+import { SelectExplorerSetting } from './components/advanced-settings/select-explorer-setting';
 
 export type TProxyConfig = {
   proxyAddress: string;
@@ -91,6 +92,7 @@ export const AdvancedSettings = ({ deviceIDs, hasAccounts }: TPagePropsWithSetti
                 <EnableTorProxySetting proxyConfig={proxyConfig} onChangeConfig={setConfig} />
                 <ConnectFullNodeSetting />
                 <ExportLogSetting />
+                { hasAccounts ? <SelectExplorerSetting /> : null }
               </WithSettingsTabs>
             </ViewContent>
           </View>

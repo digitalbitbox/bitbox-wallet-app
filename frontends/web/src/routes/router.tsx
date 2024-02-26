@@ -44,6 +44,7 @@ import { BitsuranceWidget } from './bitsurance/widget';
 import { BitsuranceDashboard } from './bitsurance/dashboard';
 import { ConnectScreenWalletConnect } from './account/walletconnect/connect';
 import { DashboardWalletConnect } from './account/walletconnect/dashboard';
+import { SelectExplorerSettings } from './settings/select-explorer';
 
 type TAppRouterProps = {
     devices: TDevices;
@@ -246,6 +247,7 @@ export const AppRouter = ({ devices, deviceIDs, devicesKey, accounts, activeAcco
         <Route path="device-settings/passphrase/:deviceID" element={PassphraseEl} />
         <Route path="advanced-settings" element={AdvancedSettingsEl} />
         <Route path="electrum" element={<ElectrumSettings />} />
+        <Route path="select-explorer" element={<SelectExplorerSettings accounts={accounts}/>} />
         <Route path="manage-accounts" element={
           <ManageAccounts
             accounts={accounts}
