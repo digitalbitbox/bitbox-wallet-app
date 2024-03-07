@@ -24,17 +24,21 @@ import { Header } from '../../components/layout';
 import { BlockExplorers } from './block-explorers';
 import * as backendAPI from '../../api/backend';
 import { getConfig, setConfig } from '../../utils/config';
-import { CoinCode } from '../../api/account';
+import { CoinCode, IAccount } from '../../api/account';
 import { MobileHeader } from './components/mobile-header';
 import { useCallback, useEffect, useRef, useState } from 'react';
 
-export const SelectExplorerSettings = () => {
+type TSelectExplorerSettingsProps = {
+  accounts: IAccount[];
+}
+
+export const SelectExplorerSettings = ({ accounts }: TSelectExplorerSettingsProps) => {
   const { t } = useTranslation();
 
   const initialConfig = useRef<any>();
   const [config, setConfigState] = useState<any>();
 
-  const [supportedCoins, setSupportedCoins] = useState<backendAPI.ICoin[]>([]);
+  const availableCoins = new Set(accounts.map(account => account.coinCode));
   const [allSelections, setAllSelections] = useState<backendAPI.TAvailableExplorers>();
 
   const [saveDisabled, setSaveDisabled] = useState(true);
@@ -68,13 +72,11 @@ export const SelectExplorerSettings = () => {
 
   useEffect(() => {
     const fetchData = async () => {
-      const coins = await backendAPI.getSupportedCoins();
       const allExplorerSelection = await backendAPI.getAvailableExplorers();
 
       // if set alongside config it will 'update' with it, but we want it to stay the same after initialization.
       initialConfig.current = await getConfig();
 
-      setSupportedCoins(coins);
       setAllSelections(allExplorerSelection);
     };
 
@@ -99,14 +101,14 @@ export const SelectExplorerSettings = () => {
               </>
             }/>
           <div className="content padded">
-            {supportedCoins.map(coin => {
+            { Array.from(availableCoins).map(coin => {
               return <BlockExplorers
-                key={coin.coinCode}
-                coin={coin.coinCode}
-                explorerOptions={allSelections?.[coin.coinCode] ?? []}
+                key={coin}
+                coin={coin}
+                explorerOptions={allSelections?.[coin] ?? []}
                 handleOnChange={handleChange}
-                selectedPrefix={config.backend.blockExplorers?.[coin.coinCode]}/>;
-            })}
+                selectedPrefix={config.backend.blockExplorers?.[coin]}/>;
+            }) }
           </div>
           <div className="content padded" style={{ display: 'flex', justifyContent: 'space-between' }}>
             <ButtonLink

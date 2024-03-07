@@ -90,7 +90,7 @@ export const AdvancedSettings = ({ deviceIDs, hasAccounts }: TPagePropsWithSetti
                 <EnableAuthSetting backendConfig={backendConfig} onChangeConfig={setConfig} />
                 <EnableTorProxySetting proxyConfig={proxyConfig} onChangeConfig={setConfig} />
                 <ConnectFullNodeSetting />
-                { deviceIDs.length > 0 ? <SelectExplorerSetting /> : null }
+                { hasAccounts ? <SelectExplorerSetting /> : null }
               </WithSettingsTabs>
             </ViewContent>
           </View>
