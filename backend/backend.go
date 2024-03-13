@@ -642,6 +642,34 @@ func (backend *Backend) AccountsTotalBalanceByKeystore() (map[string]KeystoreTot
 			)
 			currentTotal.Add(currentTotal, fiatValue)
 		}
+		// Add lightning balance if it is enabled.
+		if len(backend.Config().LightningConfig().Accounts) > 0 {
+			lightningConfigRootFingerprint := hex.EncodeToString(backend.Config().LightningConfig().Accounts[0].RootFingerprint)
+			// Check if the lightning wallet is from the same keystore.
+			if lightningConfigRootFingerprint == rootFingerprint {
+				coinDecimals := new(big.Int).Exp(
+					big.NewInt(10),
+					big.NewInt(int64(8)),
+					nil,
+				)
+				lightningBalance, err := backend.lightning.Balance()
+				if err != nil {
+					return nil, err
+				}
+				price, err := backend.RatesUpdater().LatestPriceForPair("BTC", fiat)
+				if err != nil {
+					return nil, err
+				}
+				lightningFiatValue := new(big.Rat).Mul(
+					new(big.Rat).SetFrac(
+						lightningBalance.Available().BigInt(),
+						coinDecimals,
+					),
+					new(big.Rat).SetFloat64(price),
+				)
+				currentTotal.Add(currentTotal, lightningFiatValue)
+			}
+		}
 		totalAmounts[rootFingerprint] = KeystoreTotalAmount{
 			FiatUnit: fiatUnit,
 			Total:    coin.FormatAsCurrency(currentTotal, isFiatBtc, formatBtcAsSat),
