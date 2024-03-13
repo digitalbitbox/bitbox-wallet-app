@@ -117,11 +117,11 @@ func (lightning *Lightning) Activate() error {
 	lightningConfig.Accounts = append(lightningConfig.Accounts, &lightningAccount)
 
 	if err = lightning.setLightningConfig(lightningConfig); err != nil {
-		return err
+		return handleLightningSetupError(lightning, err)
 	}
 
 	if err = lightning.connect(true); err != nil {
-		return err
+		return handleLightningSetupError(lightning, err)
 	}
 
 	return nil
@@ -173,6 +173,14 @@ func (lightning *Lightning) CheckActive() error {
 		return errp.New("Lightning not initialized")
 	}
 	return nil
+}
+
+// handleLightningSetupError deactivates the lightning instance and returns the original error raised during setup.
+func handleLightningSetupError(lightning *Lightning, err error) error {
+	if deactivateErr := lightning.Deactivate(); deactivateErr != nil {
+		lightning.log.Error(deactivateErr)
+	}
+	return err
 }
 
 // Balance returns the balance of the lightning account.
