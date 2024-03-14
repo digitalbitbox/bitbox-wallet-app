@@ -43,6 +43,7 @@ import { Darkmode } from './components/darkmode/darkmode';
 import { AuthRequired } from './components/auth/authrequired';
 import { WCSigningRequest } from './components/wallet-connect/incoming-signing-request';
 import { Providers } from './contexts/providers';
+import { TLightningAccountConfig, getLightningConfig, subscribeLightningConfig } from './api/lightning';
 
 export const App = () => {
   const { t } = useTranslation();
@@ -52,7 +53,7 @@ export const App = () => {
   const devices = useDefault(useSync(getDeviceList, syncDeviceList), {});
 
   const prevDevices = usePrevious(devices);
-
+  const lightningConfig = useDefault(useSync(getLightningConfig, subscribeLightningConfig), { accounts: {} as TLightningAccountConfig[] },);
   useEffect(() => {
     return syncNewTxs((meta) => {
       notifyUser(t('notification.newTxs', {
@@ -69,12 +70,12 @@ export const App = () => {
 
     // QT and Android start their apps in '/index.html' and '/android_asset/web/index.html' respectively
     // This re-routes them to '/' so we have a simpler uri structure
-    if (isIndex && currentURL !== '/' && (!accounts || accounts.length === 0)) {
+    if (isIndex && currentURL !== '/' && (!accounts || accounts.length === 0) && lightningConfig.accounts.length === 0) {
       navigate('/');
       return;
     }
     // if no accounts are registered on specified views route to /
-    if (accounts.length === 0 && (
+    if (accounts.length === 0 && lightningConfig.accounts.length === 0 && (
       currentURL.startsWith('/account-summary')
       || currentURL.startsWith('/add-account')
       || currentURL.startsWith('/settings/manage-accounts')
@@ -94,7 +95,7 @@ export const App = () => {
       return;
     }
     // if on index page and have at least 1 account, route to /account-summary
-    if (isIndex && accounts.length) {
+    if (isIndex && (accounts.length || lightningConfig.accounts.length)) {
       navigate('/account-summary');
       return;
     }
@@ -109,7 +110,7 @@ export const App = () => {
       return;
     }
 
-  }, [accounts, devices, navigate]);
+  }, [accounts, devices, navigate, lightningConfig]);
 
   useEffect(() => {
     const oldDeviceIDList = Object.keys(prevDevices || {});
