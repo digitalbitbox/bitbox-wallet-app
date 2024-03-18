@@ -24,7 +24,10 @@ import (
 	"io"
 	"math/big"
 	"net/http"
+	"os"
+	"path/filepath"
 	"runtime/debug"
+	"time"
 
 	"github.com/digitalbitbox/bitbox-wallet-app/backend"
 	"github.com/digitalbitbox/bitbox-wallet-app/backend/accounts"
@@ -249,6 +252,7 @@ func NewHandlers(
 	getAPIRouterNoError(apiRouter)("/cancel-connect-keystore", handlers.postCancelConnectKeystore).Methods("POST")
 	getAPIRouterNoError(apiRouter)("/set-watchonly", handlers.postSetWatchonly).Methods("POST")
 	getAPIRouterNoError(apiRouter)("/on-auth-setting-changed", handlers.postOnAuthSettingChanged).Methods("POST")
+	getAPIRouter(apiRouter)("/export-log", handlers.exportLog).Methods("POST")
 	getAPIRouterNoError(apiRouter)("/accounts/eth-account-code", handlers.lookupEthAccountCode).Methods("POST")
 
 	devicesRouter := getAPIRouterNoError(apiRouter.PathPrefix("/devices").Subrouter())
@@ -1399,4 +1403,56 @@ func (handlers *Handlers) postOnAuthSettingChanged(r *http.Request) interface{} 
 	handlers.backend.Environment().OnAuthSettingChanged(
 		handlers.backend.Config().AppConfig().Backend.Authentication)
 	return nil
+}
+
+func (handlers *Handlers) exportLog(r *http.Request) (interface{}, error) {
+	type result struct {
+		Success      bool   `json:"success"`
+		ErrorMessage string `json:"errorMessage"`
+	}
+	name := fmt.Sprintf("%s-log.txt", time.Now().Format("2006-01-02-at-15-04-05"))
+	downloadsDir, err := utilConfig.DownloadsDir()
+	if err != nil {
+		handlers.log.WithError(err).Error("error exporting logs")
+		return result{Success: false, ErrorMessage: err.Error()}, nil
+	}
+	suggestedPath := filepath.Join(downloadsDir, name)
+	path := handlers.backend.Environment().GetSaveFilename(suggestedPath)
+	if path == "" {
+		return nil, nil
+	}
+	handlers.log.Infof("Export logs to %s.", path)
+
+	file, err := os.Create(path)
+	if err != nil {
+		handlers.log.WithError(err).Error("error creating new log file")
+		return result{Success: false, ErrorMessage: err.Error()}, nil
+	}
+	logFilePath := filepath.Join(utilConfig.AppDir(), "log.txt")
+
+	existingLogFile, err := os.Open(logFilePath)
+	if err != nil {
+		handlers.log.WithError(err).Error("error opening existing log file")
+		return result{Success: false, ErrorMessage: err.Error()}, nil
+	}
+
+	defer func() {
+		if err := existingLogFile.Close(); err != nil {
+			handlers.log.WithError(err).Error("error closing existing log file")
+		}
+	}()
+
+	_, err = io.Copy(file, existingLogFile)
+	if err != nil {
+		handlers.log.WithError(err).Error("error copying existing log to new file")
+		return result{Success: false, ErrorMessage: err.Error()}, nil
+	}
+	handlers.log.Infof("Exported logs copied to %s.", path)
+
+	if err := handlers.backend.Environment().SystemOpen(path); err != nil {
+		handlers.log.WithError(err).Error("error opening log file")
+		return result{Success: false, ErrorMessage: err.Error()}, nil
+	}
+
+	return result{Success: true}, nil
 }
