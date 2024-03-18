@@ -74,3 +74,16 @@ func getOptionalUint32(params url.Values, key string) (*uint32, error) {
 	}
 	return nil, nil
 }
+
+// Get an optional uint64 value from http request url params.
+func getOptionalUint64(params url.Values, key string) (*uint64, error) {
+	if params.Has(key) {
+		parsed, err := strconv.ParseInt(params.Get(key), 10, 64)
+		if err != nil {
+			return nil, err
+		}
+		value := uint64(parsed)
+		return &value, nil
+	}
+	return nil, nil
+}

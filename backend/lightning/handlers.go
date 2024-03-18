@@ -128,7 +128,11 @@ func (lightning *Lightning) GetOpenChannelFee(r *http.Request) interface{} {
 		return responseDto{Success: false, ErrorMessage: err.Error()}
 	}
 
-	return responseDto{Success: true, Data: toOpenChannelFeeResponseDto(openChannelFeeResponse)}
+	openChannelFee, err := toOpenChannelFeeResponseDto(openChannelFeeResponse)
+	if err != nil {
+		return responseDto{Success: false, ErrorMessage: err.Error()}
+	}
+	return responseDto{Success: true, Data: openChannelFee}
 }
 
 // GetParseInput handles the GET request to parse a text input.
