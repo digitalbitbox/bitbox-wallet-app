@@ -110,7 +110,7 @@ export function Receive() {
       if (inputSats > 0) {
         const openChannelFeeResponse = await getOpenChannelFee({ amountMsat: toMsat(inputSats) });
         setOpenChannelFeeResponse(openChannelFeeResponse);
-        setShowOpenChannelWarning(openChannelFeeResponse.feeMsat ? openChannelFeeResponse.feeMsat > 0: false);
+        setShowOpenChannelWarning(openChannelFeeResponse.feeMsat ? openChannelFeeResponse.feeMsat > 0 : false);
         if (inputSats > toSat(openChannelFeeResponse.feeMsat || 0)) {
           setDisableConfirm(false);
           return;

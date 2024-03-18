@@ -221,11 +221,11 @@ func toNodeStateDto(nodeState breez_sdk.NodeState) nodeStateDto {
 	}
 }
 
-func toOpenChannelFeeResponseDto(openChannelFeeResponse breez_sdk.OpenChannelFeeResponse) (openChannelFeeResponseDto, error) {
+func toOpenChannelFeeResponseDto(openChannelFeeResponse breez_sdk.OpenChannelFeeResponse) openChannelFeeResponseDto {
 	return openChannelFeeResponseDto{
 		FeeMsat:       openChannelFeeResponse.FeeMsat,
 		UsedFeeParams: toOpeningFeeParamsDto(openChannelFeeResponse.FeeParams),
-	}, nil
+	}
 }
 
 func toOpeningFeeParamsDto(openingFeeParams breez_sdk.OpeningFeeParams) openingFeeParamsDto {
@@ -363,6 +363,7 @@ func toReverseSwapInfoDto(reverseSwapInfo *breez_sdk.ReverseSwapInfo) (*reverseS
 	return nil, nil
 }
 
+//nolint:misspell
 func toReverseSwapStatusDto(status breez_sdk.ReverseSwapStatus) (string, error) {
 	switch status {
 	case breez_sdk.ReverseSwapStatusCancelled:
