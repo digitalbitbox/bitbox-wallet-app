@@ -31,9 +31,13 @@ export function runningInAndroid() {
   return typeof window.android !== 'undefined';
 }
 
+export function runningInIOS() {
+  return typeof window.runningOnIOS !== 'undefined';
+}
+
 /**
  * Returns whether the code is running on mobile.
  */
 export function runningOnMobile() {
-  return runningInAndroid();
+  return runningInAndroid() || runningInIOS();
 }
