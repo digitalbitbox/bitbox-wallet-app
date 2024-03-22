@@ -61,7 +61,6 @@ class Chart extends Component<Props, State> {
   private refToolTip = createRef<HTMLSpanElement>();
   private chart?: IChartApi;
   private lineSeries?: ISeriesApi<'Area'>;
-  private resizeTimerID?: any;
   private height: number = 300;
   private mobileHeight: number = 150;
   private formattedData?: FormattedData;
@@ -239,8 +238,7 @@ class Chart extends Component<Props, State> {
       this.chart.subscribeCrosshairMove(this.handleCrosshair);
       this.chart.timeScale().fitContent();
       window.addEventListener('resize', this.onResize);
-      setTimeout(() => this.ref.current?.classList.remove(styles.invisible), 200);
-
+      this.ref.current?.classList.remove(styles.invisible);
     }
   };
 
@@ -259,30 +257,26 @@ class Chart extends Component<Props, State> {
 
   private onResize = () => {
     this.checkIfMobile();
-    if (this.resizeTimerID) {
-      clearTimeout(this.resizeTimerID);
+    if (!this.chart || !this.ref.current) {
+      return;
     }
-    this.resizeTimerID = setTimeout(() => {
-      if (!this.chart || !this.ref.current) {
-        return;
-      }
-      const chartWidth = !this.state.isMobile ? this.ref.current.offsetWidth : document.body.clientWidth;
-      const chartHeight = !this.state.isMobile ? this.height : this.mobileHeight;
-      this.chart.resize(chartWidth, chartHeight);
-      this.chart.applyOptions({
-        grid: {
-          horzLines: {
-            visible: !this.state.isMobile
-          }
-        },
-        timeScale: {
+    const chartWidth = !this.state.isMobile ? this.ref.current.offsetWidth : document.body.clientWidth;
+    const chartHeight = !this.state.isMobile ? this.height : this.mobileHeight;
+    this.chart.resize(chartWidth, chartHeight);
+    this.chart.applyOptions({
+      grid: {
+        horzLines: {
           visible: !this.state.isMobile
-        },
-        leftPriceScale: {
-          visible: this.props.hideAmounts ? false : !this.state.isMobile,
-        },
-      });
-    }, 200);
+        }
+      },
+      timeScale: {
+        visible: !this.state.isMobile
+      },
+      leftPriceScale: {
+        visible: this.props.hideAmounts ? false : !this.state.isMobile,
+      },
+    });
+    this.chart.timeScale().fitContent();
   };
 
   private getUTCRange = () => {
