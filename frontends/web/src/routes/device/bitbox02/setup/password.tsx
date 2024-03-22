@@ -35,7 +35,7 @@ const getSupportLink = () => {
   case 'de':
     return 'https://shiftcrypto.support/help/de-de/3-basics/84-wie-lange-sollte-mein-geratepasswort-sein';
   default:
-    return 'https://shiftcrypto.support/help/en-us/3-basics/84-wie-lange-sollte-mein-geratepasswort-sein';
+    return 'https://shiftcrypto.support/help/en-us/3-basics/84-how-long-should-my-device-password-be';
   }
 };
 
