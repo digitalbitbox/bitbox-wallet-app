@@ -15,8 +15,8 @@
  */
 import { useContext } from 'react';
 import { AppContext } from '../../contexts/AppContext';
-
 import { CoinUnit, ConversionUnit } from './../../api/account';
+// import { i18n } from '../../i18n/i18n'; // importing i18n here crashes test with an error in dialog 🤦
 import style from './amount.module.css';
 
 type TProps = {
@@ -26,36 +26,60 @@ type TProps = {
   alwaysShowAmounts?: boolean
 };
 
-export const Amount = ({ amount, unit, removeBtcTrailingZeroes, alwaysShowAmounts = false }: TProps) => {
+const formatSats = (amount: string): JSX.Element => {
+  const blocks: JSX.Element[] = [];
+  const blockSize = 3;
+
+  for (let i = amount.length; i > 0 ; i -= blockSize) {
+    const start = Math.max(0, i - blockSize);
+
+    blocks.push(
+      <span
+        key={'block_' + blocks.length}
+        className={start === 0 ? '' : style.space}>
+        {amount.slice(start, i)}
+      </span>
+    );
+  }
+
+  return (
+    <span data-testid={'amountBlocks'}>
+      {blocks.reverse()}
+    </span>
+  );
+};
+
+const formatBtc = (amount: string) => {
+  const dot = amount.indexOf('.');
+  if (dot === -1) {
+    return amount;
+  }
+  return (
+    <span data-testid={'amountBlocks'}>
+      <span>
+        {amount.slice(0, dot + 3)}
+      </span>
+      <span className={style.space}>
+        {amount.slice(dot + 3, dot + 6)}
+      </span>
+      <span className={style.space}>
+        {amount.slice(dot + 6, dot + 9)}
+      </span>
+    </span>
+  );
+};
+
+const coins = ['BTC', 'sat', 'LTC', 'ETH', 'TBTC', 'tsat', 'TLTC', 'GOETH', 'SEPETH'];
+const tokens = ['BAT', 'DAI', 'LINK', 'MKR', 'PAXG', 'USDC', 'USDT', 'WBTC', 'ZRX'];
+const isCoinOrToken = (unit: string) => coins.includes(unit) || tokens.includes(unit);
+
+export const Amount = ({
+  amount,
+  unit,
+  removeBtcTrailingZeroes,
+  alwaysShowAmounts = false,
+}: TProps) => {
   const { hideAmounts } = useContext(AppContext);
-  const formatSats = (amount: string): JSX.Element => {
-    const blocks: JSX.Element[] = [];
-    const blockSize = 3;
-
-    for (let i = amount.length; i > 0 ; i -= blockSize) {
-      const start = Math.max(0, i - blockSize);
-
-      blocks.push(
-        <span key={'block_' + blocks.length} className={start === 0 ? '' : style.space}>
-          {amount.slice(start, i)}
-        </span>
-      );
-    }
-
-    return <span data-testid={'amountBlocks'}>{blocks.reverse()}</span>;
-  };
-
-  const formatBtc = (amount: string): JSX.Element => {
-    const dot = amount.indexOf('.');
-    if (dot === -1) {
-      return <>{amount}</>;
-    }
-    return <span data-testid={'amountBlocks'}>
-      <span>{amount.slice(0, dot + 3)}</span>
-      <span className={style.space}>{amount.slice(dot + 3, dot + 6)}</span>
-      <span className={style.space}>{amount.slice(dot + 6, dot + 9)}</span>
-    </span>;
-  };
 
   if (hideAmounts && !alwaysShowAmounts) {
     return '***';
@@ -67,7 +91,7 @@ export const Amount = ({ amount, unit, removeBtcTrailingZeroes, alwaysShowAmount
   case 'LTC':
   case 'TLTC':
     if (removeBtcTrailingZeroes && amount.includes('.')) {
-      return <>{amount.replace(/\.?0+$/, '')}</>;
+      return amount.replace(/\.?0+$/, '');
     } else {
       return formatBtc(amount);
     }
@@ -75,6 +99,22 @@ export const Amount = ({ amount, unit, removeBtcTrailingZeroes, alwaysShowAmount
   case 'tsat':
     return formatSats(amount);
   }
-  return <>{amount}</>;
 
+  if (isCoinOrToken(unit)) { // don't touch coins/tokens for now
+    return amount;
+  }
+
+  const formatted = Intl
+    .NumberFormat(
+      'de-CH' /* temp. hardcoded for testing, should use i18n.language */,
+      { style: 'currency', currency: unit }
+    )
+    .formatToParts(Number(amount)) // scary conversion, needs tests with very large and very smalls amounts
+    .filter(x => !['currency', 'literal'].includes(x.type)) // only use formatte amount and drop the currency
+    .map(x => x.value)
+    // .map(part => JSON.stringify(part)) // debug
+    .join('');
+
+  console.log(`'${amount}' '${formatted}'`);
+  return formatted;
 };

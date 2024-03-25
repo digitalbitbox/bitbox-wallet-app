@@ -43,7 +43,7 @@ func FormatAsCurrency(amount *big.Rat, isBtc bool, formatBtcAsSats bool) string 
 	formatted := FormatAsPlainCurrency(amount, isBtc, formatBtcAsSats)
 	position := strings.Index(formatted, ".") - 3
 	for position > 0 {
-		formatted = formatted[:position] + "'" + formatted[position:]
+		formatted = formatted[:position] + formatted[position:] // temp. removed to try an approach in the frontend
 		position -= 3
 	}
 	return formatted

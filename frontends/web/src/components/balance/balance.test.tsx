@@ -68,6 +68,6 @@ describe('components/balance/balance', () => {
     };
     const { getByTestId } = render(<Balance balance={MOCK_BALANCE} />, { wrapper: I18NWrapper });
     expect(getByTestId('availableBalance').textContent).toBe('0.005BTC');
-    expect(getByTestId('incomingBalance').textContent).toBe('+0.003 BTC / 512 USD');
+    expect(getByTestId('incomingBalance').textContent).toBe('+0.003 BTC / 512.00 USD');
   });
 });
