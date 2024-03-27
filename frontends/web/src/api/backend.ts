@@ -128,3 +128,13 @@ export const subscribeAuth = (
 export const onAuthSettingChanged = (): Promise<void> => {
   return apiPost('on-auth-setting-changed');
 };
+
+export interface IExport {
+  success: boolean;
+  path: string;
+  errorMessage: string;
+}
+
+export const exportLogs = (): Promise<IExport | null> => {
+  return apiPost('export-log');
+};
