@@ -1,0 +1,12 @@
+.container {
+    display: flex;
+    flex-direction: column;
+    gap: var(--space-quarter);
+    align-items: flex-start;
+    width: 100%;
+}
+
+.button {
+    height: var(----item-height-xsmall);
+    padding: 0;
+}
