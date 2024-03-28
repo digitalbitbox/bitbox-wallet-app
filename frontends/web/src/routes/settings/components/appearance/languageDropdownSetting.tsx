@@ -19,6 +19,8 @@ import { useTranslation } from 'react-i18next';
 import { defaultLanguages } from '../../../../components/language/types';
 import { getSelectedIndex } from '../../../../utils/language';
 import { SingleDropdown } from '../dropdowns/singledropdown';
+import { Button } from '../../../../components/forms';
+import styles from './languageDropDownSetting.module.css';
 
 export const LanguageDropdownSetting = () => {
   const { i18n, t } = useTranslation();
@@ -30,11 +32,14 @@ export const LanguageDropdownSetting = () => {
       secondaryText={t('newSettings.appearance.language.description')}
       collapseOnSmall
       extraComponent={
-        <SingleDropdown
-          options={formattedLanguages}
-          handleChange={i18n.changeLanguage}
-          defaultValue={{ label: selectedLanguage.display, value: selectedLanguage.code }}
-        />
+        <div className={styles.container}>
+          <SingleDropdown
+            options={formattedLanguages}
+            handleChange={i18n.changeLanguage}
+            value={{ label: selectedLanguage.display, value: selectedLanguage.code }}
+          />
+          {selectedLanguage.code !== 'en' && <Button onClick={() => i18n.changeLanguage('en')} className={styles.button} transparent>Change back to English</Button>}
+        </div>
       }
     />
   );
