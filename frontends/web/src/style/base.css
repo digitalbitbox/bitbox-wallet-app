@@ -15,6 +15,15 @@ body {
 	  -webkit-app-region: drag;
 }
 
+html {
+    font-size: 62.5%;
+    text-size-adjust: 100%;
+}
+
+body {
+    font-size: 1.6rem;
+}
+
 /*
 ::selection:not(textarea):not(input) {
     background-color: transparent;
