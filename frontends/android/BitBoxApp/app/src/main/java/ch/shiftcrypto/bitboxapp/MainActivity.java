@@ -33,6 +33,7 @@ import android.webkit.ValueCallback;
 import android.webkit.WebChromeClient;
 import android.webkit.WebResourceRequest;
 import android.webkit.WebResourceResponse;
+import android.webkit.WebBackForwardList;
 import android.webkit.WebView;
 import android.webkit.WebViewClient;
 
@@ -44,12 +45,13 @@ import androidx.core.app.ActivityCompat;
 import androidx.core.content.ContextCompat;
 import androidx.lifecycle.Observer;
 import androidx.lifecycle.ViewModelProviders;
+import androidx.activity.OnBackPressedCallback;
 
-import java.io.BufferedReader;
+// import java.io.BufferedReader;
 import java.io.ByteArrayInputStream;
 import java.io.IOException;
 import java.io.InputStream;
-import java.io.InputStreamReader;
+// import java.io.InputStreamReader;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.Iterator;
@@ -235,7 +237,7 @@ public class MainActivity extends AppCompatActivity {
                     if (url != null && url.startsWith(BASE_URL)) {
                         // Intercept local requests and serve the response from the Android assets folder.
                         try {
-                            InputStream inputStream = getAssets().open(url.replace(BASE_URL, "web/"));
+                            InputStream inputStream = getAssets().open(url.replace("file:///", "web/"));
                             String mimeType = Util.getMimeType(url);
                             if (mimeType != null) {
                                 return new WebResourceResponse(mimeType, "UTF-8", inputStream);
@@ -365,12 +367,60 @@ public class MainActivity extends AppCompatActivity {
         final String javascriptVariableName = "android";
         vw.addJavascriptInterface(new JavascriptBridge(this), javascriptVariableName);
 
-        try {
-            String data = readRawText(getAssets().open("web/index.html"));
-            vw.loadDataWithBaseURL(BASE_URL, data, null, null, null);
-        } catch (IOException e) {
-            e.printStackTrace();
-        }
+        getOnBackPressedDispatcher().addCallback(this, new OnBackPressedCallback(true) {
+            @Override
+            public void handleOnBackPressed() {
+
+                WebBackForwardList historyList = vw.copyBackForwardList();
+                int historySize = historyList.getSize();
+
+                // Create and show an alert dialog with the number of entries in the history
+                new AlertDialog.Builder(MainActivity.this)
+                    .setTitle("History Entries")
+                    .setMessage("Number of entries in history: " + historySize)
+                    .setPositiveButton(android.R.string.yes, new DialogInterface.OnClickListener() {
+                        public void onClick(DialogInterface dialog, int which) {
+                            if (vw.canGoBack()) {
+                                vw.goBackOrForward(-1);
+                            } else {
+                                // To avoid unexpected behaviour, we prompt users and force the app process
+                                // to exit which helps with preserving phone's resources by shutting down
+                                // all goroutines.
+                                //
+                                // Without forced app process exit, some goroutines may remain active even after
+                                // the app resumption at which point new copies of goroutines are spun up.
+                                // Note that this is different from users tapping on "home" button or switching
+                                // to another app and then back, in which case no extra goroutines are created.
+                                //
+                                // A proper fix is to make the backend process run in a separate system thread.
+                                // Until such solution is implemented, forced app exit seems most appropriate.
+                                //
+                                // See the following for details about task and activity stacks:
+                                // https://developer.android.com/guide/components/activities/tasks-and-back-stack
+                                new AlertDialog.Builder(MainActivity.this)
+                                    .setTitle("Close BitBoxApp")
+                                    .setMessage("Do you really want to exit?")
+                                    .setPositiveButton(android.R.string.yes, new DialogInterface.OnClickListener() {
+                                        public void onClick(DialogInterface dialog, int which) {
+                                            Util.quit(MainActivity.this);
+                                        }
+                                    })
+                                    .setNegativeButton(android.R.string.no, new DialogInterface.OnClickListener() {
+                                        public void onClick(DialogInterface dialog, int which) {
+                                            dialog.dismiss();
+                                        }
+                                    })
+                                    .setIcon(android.R.drawable.ic_dialog_alert)
+                                    .show();
+                            }
+                        }
+                    })
+                    .setIcon(android.R.drawable.ic_dialog_info)
+                    .show();
+            }
+        });
+
+        vw.loadUrl("file:///android_asset/web/index.html");
 
         // We call updateDevice() here in case the app was started while the device was already connected.
         // In that case, handleIntent() is not called with ACTION_USB_DEVICE_ATTACHED.
@@ -382,21 +432,21 @@ public class MainActivity extends AppCompatActivity {
         goService.startServer(getApplicationContext().getFilesDir().getAbsolutePath(), gVM.getGoEnvironment(), gVM.getGoAPI());
     }
 
-    private static String readRawText(InputStream inputStream) throws IOException {
-        if (inputStream == null) {
-            return null;
-        }
+    // private static String readRawText(InputStream inputStream) throws IOException {
+    //     if (inputStream == null) {
+    //         return null;
+    //     }
 
-        BufferedReader bufferedReader = new BufferedReader(new InputStreamReader(inputStream));
-        StringBuilder fileContent = new StringBuilder();
-        String currentLine = bufferedReader.readLine();
-        while (currentLine != null) {
-            fileContent.append(currentLine);
-            fileContent.append("\n");
-            currentLine = bufferedReader.readLine();
-        }
-        return fileContent.toString();
-    }
+    //     BufferedReader bufferedReader = new BufferedReader(new InputStreamReader(inputStream));
+    //     StringBuilder fileContent = new StringBuilder();
+    //     String currentLine = bufferedReader.readLine();
+    //     while (currentLine != null) {
+    //         fileContent.append(currentLine);
+    //         fileContent.append("\n");
+    //         currentLine = bufferedReader.readLine();
+    //     }
+    //     return fileContent.toString();
+    // }
 
     @Override
     protected void onNewIntent(Intent intent) {
@@ -615,39 +665,4 @@ public class MainActivity extends AppCompatActivity {
         }
     }
 
-    // The app cannot currently handle the back button action to allow users
-    // to move between screens back and forth. What happens is the app is "moved"
-    // to background as if "home" button were pressed.
-    // To avoid unexpected behaviour, we prompt users and force the app process
-    // to exit which helps with preserving phone's resources by shutting down
-    // all goroutines.
-    //
-    // Without forced app process exit, some goroutines may remain active even after
-    // the app resumption at which point new copies of goroutines are spun up.
-    // Note that this is different from users tapping on "home" button or switching
-    // to another app and then back, in which case no extra goroutines are created.
-    //
-    // A proper fix is to make the backend process run in a separate system thread.
-    // Until such solution is implemented, forced app exit seems most appropriate.
-    //
-    // See the following for details about task and activity stacks:
-    // https://developer.android.com/guide/components/activities/tasks-and-back-stack
-    @Override
-    public void onBackPressed() {
-        new AlertDialog.Builder(MainActivity.this)
-            .setTitle("Close BitBoxApp")
-            .setMessage("Do you really want to exit?")
-            .setPositiveButton(android.R.string.yes, new DialogInterface.OnClickListener() {
-                public void onClick(DialogInterface dialog, int which) {
-                    Util.quit(MainActivity.this);
-                }
-            })
-            .setNegativeButton(android.R.string.no, new DialogInterface.OnClickListener() {
-                public void onClick(DialogInterface dialog, int which) {
-                    dialog.dismiss();
-                }
-            })
-            .setIcon(android.R.drawable.ic_dialog_alert)
-            .show();
-    }
 }
