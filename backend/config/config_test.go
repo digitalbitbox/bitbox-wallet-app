@@ -112,7 +112,6 @@ func TestSetLightningConfig(t *testing.T) {
 	lightningCfg := cfg.LightningConfig()
 	require.Equal(t, 0, len(lightningCfg.Accounts))
 	lightningCfg.Accounts = append(lightningCfg.Accounts, &LightningAccountConfig{
-		Mnemonic:        "test",
 		Code:            "v0-test-ln-0",
 		Number:          0,
 		RootFingerprint: []byte("fingerprint"),
