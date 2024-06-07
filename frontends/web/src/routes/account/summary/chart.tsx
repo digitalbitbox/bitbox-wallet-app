@@ -101,10 +101,11 @@ export const Chart = ({
   const ref = useRef<HTMLDivElement>(null);
   const refToolTip = useRef<HTMLSpanElement>(null);
   const chart = useRef<IChartApi>();
+  const chartInitialized = useRef(false);
   const lineSeries = useRef<ISeriesApi<'Area'>>();
   const formattedData = useRef<FormattedData>({});
 
-  const [source, setSource] = useState<'daily' | 'hourly'>('daily');
+  const [source, setSource] = useState<'daily' | 'hourly'>(chartDisplay === 'week' ? 'hourly' : 'daily');
   const [difference, setDifference] = useState<number>();
   const [diffSince, setDiffSince] = useState<string>();
   const [isMobile, setIsMobile] = useState(window.innerWidth <= 640);
@@ -209,10 +210,13 @@ export const Chart = ({
   };
 
   const removeChart = () => {
-    if (chart.current) {
-      chart.current.remove();
-      chart.current = undefined;
+    if (chartInitialized.current) {
       window.removeEventListener('resize', onResize);
+      chart.current?.timeScale().unsubscribeVisibleLogicalRangeChange(calculateChange);
+      chart.current?.unsubscribeCrosshairMove(handleCrosshair);
+      chart.current?.remove();
+      chart.current = undefined;
+      chartInitialized.current = false;
     }
   };
 
@@ -301,67 +305,65 @@ export const Chart = ({
   const initChart = () => {
     const darkmode = getDarkmode();
     if (ref.current && hasData && !data.chartDataMissing) {
-      if (!chart.current) {
-        const chartWidth = !isMobile ? ref.current.offsetWidth : document.body.clientWidth;
-        const chartHeight = !isMobile ? height : mobileHeight;
-        chart.current = createChart(ref.current, {
-          width: chartWidth,
-          height: chartHeight,
-          handleScroll: false,
-          handleScale: false,
-          crosshair: {
-            vertLine: {
-              visible: false,
-              labelVisible: false,
-            },
-            horzLine: {
-              visible: false,
-              labelVisible: false,
-            },
-            mode: 1,
-          },
-          grid: {
-            vertLines: {
-              visible: false,
-            },
-            horzLines: {
-              color: darkmode ? '#333333' : '#dedede',
-              style: LineStyle.Solid,
-              visible: !isMobile,
-            },
-          },
-          layout: {
-            background: {
-              type: ColorType.Solid,
-              color: darkmode ? '#1D1D1B' : '#F5F5F5',
-            },
-            fontSize: 11,
-            fontFamily: '-apple-system, BlinkMacSystemFont, "Segoe UI", "Ubuntu", "Roboto", "Oxygen", "Cantarell", "Fira Sans", "Droid Sans", "Helvetica Neue", sans-serif',
-            textColor: darkmode ? '#F5F5F5' : '#1D1D1B',
-          },
-          leftPriceScale: {
-            borderVisible: false,
-            ticksVisible: false,
-            visible: hideAmounts ? false : !isMobile,
-            entireTextOnly: true,
-          },
-          localization: {
-            locale: i18n.language,
-          },
-          rightPriceScale: {
+      const chartWidth = !isMobile ? ref.current.offsetWidth : document.body.clientWidth;
+      const chartHeight = !isMobile ? height : mobileHeight;
+      chart.current = createChart(ref.current, {
+        width: chartWidth,
+        height: chartHeight,
+        handleScroll: false,
+        handleScale: false,
+        crosshair: {
+          vertLine: {
             visible: false,
-            ticksVisible: false,
+            labelVisible: false,
           },
-          timeScale: {
-            borderVisible: false,
-            timeVisible: false,
+          horzLine: {
+            visible: false,
+            labelVisible: false,
+          },
+          mode: 1,
+        },
+        grid: {
+          vertLines: {
+            visible: false,
+          },
+          horzLines: {
+            color: darkmode ? '#333333' : '#dedede',
+            style: LineStyle.Solid,
             visible: !isMobile,
           },
-          trackingMode: {
-            exitMode: 0
-          }
-        });
-      }
+        },
+        layout: {
+          background: {
+            type: ColorType.Solid,
+            color: darkmode ? '#1D1D1B' : '#F5F5F5',
+          },
+          fontSize: 11,
+          fontFamily: '-apple-system, BlinkMacSystemFont, "Segoe UI", "Ubuntu", "Roboto", "Oxygen", "Cantarell", "Fira Sans", "Droid Sans", "Helvetica Neue", sans-serif',
+          textColor: darkmode ? '#F5F5F5' : '#1D1D1B',
+        },
+        leftPriceScale: {
+          borderVisible: false,
+          ticksVisible: false,
+          visible: hideAmounts ? false : !isMobile,
+          entireTextOnly: true,
+        },
+        localization: {
+          locale: i18n.language,
+        },
+        rightPriceScale: {
+          visible: false,
+          ticksVisible: false,
+        },
+        timeScale: {
+          borderVisible: false,
+          timeVisible: false,
+          visible: !isMobile,
+        },
+        trackingMode: {
+          exitMode: 0
+        }
+      });
       lineSeries.current = chart.current.addAreaSeries({
         priceLineVisible: false,
         lastValueVisible: false,
@@ -373,17 +375,6 @@ export const Chart = ({
         lineColor: 'rgba(94, 148, 192, 1)',
         crosshairMarkerRadius: 6,
       });
-      switch (chartDisplay) {
-      case 'week':
-        displayWeek();
-        break;
-      case 'month':
-        displayMonth();
-        break;
-      case 'year':
-        displayYear();
-        break;
-      }
       const isChartDisplayWeekly = chartDisplay === 'week';
       lineSeries.current.setData(
         (isChartDisplayWeekly ?
@@ -400,6 +391,7 @@ export const Chart = ({
       chart.current.timeScale().fitContent();
       window.addEventListener('resize', onResize);
       ref.current?.classList.remove(styles.invisible);
+      chartInitialized.current = true;
     }
   };
 
@@ -433,37 +425,28 @@ export const Chart = ({
   }
 
   useEffect(() => {
-    if (!chart.current) {
+    if (!chartInitialized.current) {
       initChart();
     }
-  });
-
-  useEffect(() => {
-    if (source !== 'hourly' && chartDisplay === 'week') {
-      setSource('hourly');
-    }
-    initChart();
     return () => {
-      if (chart.current) {
-        window.removeEventListener('resize', onResize);
-        chart.current.timeScale().unsubscribeVisibleLogicalRangeChange(calculateChange);
-        chart.current.unsubscribeCrosshairMove(handleCrosshair);
-      }
+      removeChart();
     };
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, []);
 
   useEffect(() => {
-    if (!chart.current) {
-      return;
+    if (!chartInitialized.current) {
+      initChart();
     }
+  });
 
+  useEffect(() => {
     const { utcYear, utcMonth, utcDate, from, to } = getUTCRange();
 
     switch (chartDisplay) {
     case 'week': {
       from.setUTCDate(utcDate - 7);
-      chart.current.timeScale().setVisibleRange({
+      chart.current?.timeScale().setVisibleRange({
         from: from.getTime() / 1000 as UTCTimestamp,
         to: to.getTime() / 1000 as UTCTimestamp,
       });
@@ -471,7 +454,7 @@ export const Chart = ({
     }
     case 'month': {
       from.setUTCMonth(utcMonth - 1);
-      chart.current.timeScale().setVisibleRange({
+      chart.current?.timeScale().setVisibleRange({
         from: from.getTime() / 1000 as UTCTimestamp,
         to: to.getTime() / 1000 as UTCTimestamp,
       });
@@ -486,7 +469,7 @@ export const Chart = ({
       break;
     }
     case 'all': {
-      chart.current.timeScale().fitContent();
+      chart.current?.timeScale().fitContent();
       break;
     }
     }
