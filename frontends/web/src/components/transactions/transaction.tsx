@@ -21,7 +21,6 @@ import * as accountApi from '@/api/account';
 import { A } from '@/components/anchor/anchor';
 import { Dialog } from '@/components/dialog/dialog';
 import { CopyableInput } from '@/components/copy/Copy';
-import { ExpandIcon } from '@/components/icon/icon';
 import { FiatConversion } from '@/components/rates/rates';
 import { Amount } from '@/components/amount/amount';
 import { Note } from './note';
@@ -29,6 +28,7 @@ import { TxDetail } from './components/detail';
 import { Arrow } from './components/arrow';
 import { TxDate, TxDateDetail } from './components/date';
 import { TxStatus, TxStatusDetail } from './components/status';
+import { ShowDetailsButton } from './components/show-details-button';
 import parentStyle from './transactions.module.css';
 import style from './transaction.module.css';
 
@@ -104,11 +104,11 @@ export const Transaction = ({
               </span>
             </div>
           )}
-          <div className={`${parentStyle.action} ${parentStyle.hideOnMedium}`}>
-            <button type="button" className={style.action} onClick={showDetails}>
-              <ExpandIcon expand={!transactionDialog} />
-            </button>
-          </div>
+          <ShowDetailsButton
+            onClick={showDetails}
+            expand={!transactionDialog}
+            hideOnMedium
+          />
         </div>
         <div className={parentStyle.columnGroup}>
           <TxStatus
@@ -130,11 +130,10 @@ export const Transaction = ({
               <span className={style.currencyUnit}>&nbsp;{amount.unit}</span>
             </span>
           </div>
-          <div className={`${parentStyle.action} ${parentStyle.showOnMedium}`}>
-            <button type="button" className={style.action} onClick={showDetails}>
-              <ExpandIcon expand={!transactionDialog} />
-            </button>
-          </div>
+          <ShowDetailsButton
+            onClick={showDetails}
+            expand={!transactionDialog}
+          />
         </div>
       </div>
       {/*
