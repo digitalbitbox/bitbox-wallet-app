@@ -22,13 +22,13 @@ import { A } from '@/components/anchor/anchor';
 import { Dialog } from '@/components/dialog/dialog';
 import { CopyableInput } from '@/components/copy/Copy';
 import { ExpandIcon } from '@/components/icon/icon';
-import { ProgressRing } from '@/components/progressRing/progressRing';
 import { FiatConversion } from '@/components/rates/rates';
 import { Amount } from '@/components/amount/amount';
 import { Note } from './note';
 import { TxDetail } from './components/detail';
 import { Arrow } from './components/arrow';
 import { TxDate, TxDateDetail } from './components/date';
+import { TxStatus, TxStatusDetail } from './components/status';
 import parentStyle from './transactions.module.css';
 import style from './transaction.module.css';
 
@@ -71,8 +71,6 @@ export const Transaction = ({
 
   const sign = ((type === 'send') && '−') || ((type === 'receive') && '+') || '';
   const typeClassName = (status === 'failed' && style.failed) || (type === 'send' && style.send) || (type === 'receive' && style.receive) || '';
-  const statusText = t(`transaction.status.${status}`);
-  const progress = numConfirmations < numConfirmationsComplete ? (numConfirmations / numConfirmationsComplete) * 100 : 100;
 
   return (
     <div className={`${style.container}${index === 0 ? ' ' + style.first : ''}`}>
@@ -113,18 +111,11 @@ export const Transaction = ({
           </div>
         </div>
         <div className={parentStyle.columnGroup}>
-          <div className={parentStyle.status}>
-            <span className={style.columnLabel}>
-              {t('transaction.details.status')}:
-            </span>
-            <ProgressRing
-              className="m-right-quarter"
-              width={14}
-              value={progress}
-              isComplete={numConfirmations >= numConfirmationsComplete}
-            />
-            <span className={style.status}>{statusText}</span>
-          </div>
+          <TxStatus
+            status={status}
+            numConfirmations={numConfirmations}
+            numConfirmationsComplete={numConfirmationsComplete}
+          />
           <div className={parentStyle.fiat}>
             <span className={`${style.fiat} ${typeClassName}`}>
               <FiatConversion amount={amount} sign={sign} noAction />
@@ -170,21 +161,11 @@ export const Transaction = ({
               />
             </TxDetail>
             <TxDetail label={t('transaction.confirmation')}>{numConfirmations}</TxDetail>
-            <TxDetail label={t('transaction.details.status')}>
-              <ProgressRing
-                className="m-right-quarter"
-                width={14}
-                value={progress}
-                isComplete={numConfirmations >= numConfirmationsComplete}
-              />
-              <span className={style.status}>
-                {statusText} {
-                  status === 'pending' && (
-                    <span>({numConfirmations}/{numConfirmationsComplete})</span>
-                  )
-                }
-              </span>
-            </TxDetail>
+            <TxStatusDetail
+              status={status}
+              numConfirmations={numConfirmations}
+              numConfirmationsComplete={numConfirmationsComplete}
+            />
             <TxDateDetail time={time} />
             <TxDetail label={t('transaction.details.fiat')}>
               <span className={`${style.fiat} ${typeClassName}`}>
