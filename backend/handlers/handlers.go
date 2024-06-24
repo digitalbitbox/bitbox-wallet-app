@@ -765,9 +765,9 @@ func (handlers *Handlers) getAccountsBalance(*http.Request) (interface{}, error)
 }
 
 type coinFormattedAmount struct {
-	CoinCode        coin.Code                       `json:"coinCode"`
-	CoinName        string                          `json:"coinName"`
-	FormattedAmount accountHandlers.FormattedAmount `json:"formattedAmount"`
+	CoinCode        coin.Code            `json:"coinCode"`
+	CoinName        string               `json:"coinName"`
+	FormattedAmount coin.FormattedAmount `json:"formattedAmount"`
 }
 
 // getCoinsTotalBalance returns the total balances grouped by coins.
@@ -775,6 +775,15 @@ func (handlers *Handlers) getCoinsTotalBalance(_ *http.Request) (interface{}, er
 	var coinFormattedAmounts []coinFormattedAmount
 	var sortedCoins []coin.Code
 	totalCoinsBalances := make(map[coin.Code]*big.Int)
+
+	if handlers.backend.Config().LightningConfig().LightningEnabled() {
+		lightningBalance, err := handlers.backend.Lightning().Balance()
+		if err != nil {
+			return nil, err
+		}
+		totalCoinsBalances[coin.CodeBTC] = lightningBalance.Available().BigInt()
+		sortedCoins = append(sortedCoins, coin.CodeBTC)
+	}
 
 	for _, account := range handlers.backend.Accounts() {
 		if account.Config().Config.Inactive || account.Config().Config.HiddenBecauseUnused {
@@ -810,7 +819,7 @@ func (handlers *Handlers) getCoinsTotalBalance(_ *http.Request) (interface{}, er
 		coinFormattedAmounts = append(coinFormattedAmounts, coinFormattedAmount{
 			CoinCode: coinCode,
 			CoinName: currentCoin.Name(),
-			FormattedAmount: accountHandlers.FormattedAmount{
+			FormattedAmount: coin.FormattedAmount{
 				Amount: currentCoin.FormatAmount(coin.NewAmount(totalCoinsBalances[coinCode]), false),
 				Unit:   currentCoin.GetFormatUnit(false),
 				Conversions: coin.Conversions(

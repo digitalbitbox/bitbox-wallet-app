@@ -102,6 +102,11 @@ func (lightning *Lightning) Activate() error {
 		return err
 	}
 
+	keystoreName, err := keystore.Name()
+	if err != nil {
+		return err
+	}
+
 	entropyMnemonic, err := bip39.NewMnemonic(entropy)
 	if err != nil {
 		lightning.log.WithError(err).Warn("Error generating mnemonic")
@@ -111,6 +116,7 @@ func (lightning *Lightning) Activate() error {
 	lightningAccount := config.LightningAccountConfig{
 		Mnemonic:        entropyMnemonic,
 		RootFingerprint: fingerprint,
+		KeyStoreName:    keystoreName,
 		Code:            types.Code(strings.Join([]string{"v0-", hex.EncodeToString(fingerprint), "-ln-0"}, "")),
 		Number:          0,
 	}

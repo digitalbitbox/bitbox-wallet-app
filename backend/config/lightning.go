@@ -26,6 +26,8 @@ type LightningAccountConfig struct {
 	Mnemonic string `json:"mnemonic"`
 	// RootFingerprint is fingerprint of the keystore that generated the entropy.
 	RootFingerprint jsonp.HexBytes `json:"rootFingerprint"`
+	// KeyStoreName is name of the keystore.
+	KeyStoreName string `json:"keystoreName"`
 	// Code is the code of the lightning account.
 	Code types.Code `json:"code"`
 	// Number is the lightning account incremental number.

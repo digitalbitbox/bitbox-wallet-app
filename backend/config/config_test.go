@@ -116,6 +116,7 @@ func TestSetLightningConfig(t *testing.T) {
 		Code:            "v0-test-ln-0",
 		Number:          0,
 		RootFingerprint: []byte("fingerprint"),
+		KeyStoreName:    "test",
 	})
 	require.NoError(t, cfg.SetLightningConfig(lightningCfg))
 
