@@ -166,3 +166,51 @@ export function SummaryBalance({
     </div>
   );
 }
+
+
+export function LightningBalance() {
+  const { t } = useTranslation();
+  const { lightningConfig } = useLightning();
+  const [lightningBalance, setLightningBalance] = useState<accountApi.IBalance>();
+
+  const fetchLightningBalance = useCallback(async () => {
+    setLightningBalance(await getLightningBalance());
+  }, []);
+
+  useEffect(() => {
+    fetchLightningBalance();
+    const subscriptions = [subscribeNodeState(fetchLightningBalance)];
+    return () => unsubscribe(subscriptions);
+  }, [fetchLightningBalance, lightningConfig]);
+
+  return (
+    <div>
+      <div className={style.accountName}>
+        <p>
+          {lightningConfig.accounts[0].keystoreName} ({lightningConfig.accounts[0].rootFingerprint})
+        </p>
+      </div>
+      <div className={style.balanceTable}>
+        <table className={style.table}>
+          <colgroup>
+            <col width="33%" />
+            <col width="33%" />
+            <col width="*" />
+          </colgroup>
+          <thead>
+            <tr>
+              <th>{t('accountSummary.name')}</th>
+              <th>{t('accountSummary.balance')}</th>
+              <th>{t('accountSummary.fiatBalance')}</th>
+            </tr>
+          </thead>
+          <tbody>
+            {lightningBalance && (
+              <BalanceRow key="lightning" code="lightning" name="Lightning" coinCode="lightning" balance={lightningBalance} />
+            )}
+          </tbody>
+        </table>
+      </div>
+    </div>
+  );
+}
