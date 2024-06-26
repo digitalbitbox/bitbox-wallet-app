@@ -5,7 +5,7 @@ go 1.20
 require (
 	github.com/BitBoxSwiss/bitbox02-api-go v0.0.0-20240516070751-b22740e514bc
 	github.com/BitBoxSwiss/block-client-go v0.0.0-20240516081043-0d604acd6519
-	github.com/breez/breez-sdk-go v0.3.8
+	github.com/breez/breez-sdk-go v0.4.1
 	github.com/btcsuite/btcd v0.24.0
 	github.com/btcsuite/btcd/btcec/v2 v2.3.2
 	github.com/btcsuite/btcd/btcutil v1.1.5
